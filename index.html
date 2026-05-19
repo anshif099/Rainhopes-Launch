@@ -1085,6 +1085,7 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    const LEADS_PATH = 'form';
 
     // Initialize Lucide Icons
     lucide.createIcons();
@@ -1337,12 +1338,21 @@
       animateConfetti();
     }
 
-    // 7. FORM VALIDATION & LOCALSTORAGE SUBMISSION
+    // 7. FORM VALIDATION & FIREBASE SUBMISSION
     const auditForm = document.getElementById('audit-form');
     const submitBtn = document.getElementById('submit-btn');
 
-    auditForm.addEventListener('submit', (e) => {
+    function getFirebaseSaveMessage(error) {
+      const message = (error && (error.message || error.code) || '').toString().toLowerCase();
+      if (message.includes('permission')) {
+        return `Firebase rules blocked this save. Allow writes to /${LEADS_PATH} in Realtime Database rules.`;
+      }
+      return 'Could not save to Firebase. Please check your internet connection and Firebase database URL.';
+    }
+
+    auditForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (submitBtn.disabled) return;
 
       const username = document.getElementById('username').value.trim();
       const phone = phoneInput.value.trim();
@@ -1363,52 +1373,48 @@
         return;
       }
 
-      // Enter loading state
+      const leadRef = db.ref(LEADS_PATH).push();
+      const createdAt = Date.now();
+      const submission = {
+        id: leadRef.key,
+        name: username,
+        phone: phone,
+        screenshot: base64Image,
+        fileName: previewName.textContent || 'screenshot.png',
+        date: new Date(createdAt).toLocaleString(),
+        createdAt: createdAt,
+        status: 'Pending Review'
+      };
+
       submitBtn.classList.add('loading');
-      
-      // Simulate API post request delay (1.5 seconds)
-      setTimeout(() => {
-        submitBtn.classList.remove('loading');
-        submitBtn.classList.add('success');
-        
-        // Save submission locally
-        const submission = {
-          id: 'lead_' + Date.now(),
-          name: username,
-          phone: phone,
-          screenshot: base64Image,
-          fileName: previewName.textContent,
-          date: new Date().toLocaleString(),
-          status: 'Pending Review'
-        };
+      submitBtn.classList.remove('success');
+      submitBtn.disabled = true;
+
+      try {
+        await leadRef.set(submission);
 
         let submissions = JSON.parse(localStorage.getItem('rainhopes-leads') || '[]');
-        submissions.unshift(submission); // Add to the front
+        submissions.unshift(submission);
         localStorage.setItem('rainhopes-leads', JSON.stringify(submissions));
 
-        // Save submission to Firebase Realtime Database
-        try {
-          db.ref('leads').push(submission)
-            .then(() => {
-              console.log("Lead synced successfully to Firebase Realtime Database!");
-            })
-            .catch((err) => {
-              console.error("Firebase database error:", err);
-            });
-        } catch (fbErr) {
-          console.error("Firebase push exception:", fbErr);
-        }
+        submitBtn.classList.remove('loading');
+        submitBtn.classList.add('success');
+        console.log("Lead saved to Firebase Realtime Database:", leadRef.key);
 
         // Toast success message & Confetti Fx
         showToast('Audit Request Submitted!', 'Our team will review your website screenshot shortly.', 'success');
         triggerConfetti();
 
-        // Redirect to admin dashboard after a short delay so user can see all submitted forms
+        // Redirect after a short delay so the user can see the success state
         setTimeout(() => {
           window.location.href = 'winner.html';
         }, 2000);
-
-      }, 1500);
+      } catch (err) {
+        console.error("Firebase database error:", err);
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+        showToast('Firebase Save Failed', getFirebaseSaveMessage(err), 'error');
+      }
     });
   </script>
 </body>
