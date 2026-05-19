@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rainhopes Admin | Leads Dashboard</title>
+  <!-- Google Fonts: Inter and Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* CSS RESET & VARIABLES */
+    :root {
+      --primary: #0dd1e5;
+      --primary-rgb: 13, 209, 229;
+      --primary-hover: #0bc0d2;
+      --bg: #ffffff;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --grid-line: rgba(0, 0, 0, 0.04);
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-border: rgba(0, 0, 0, 0.08);
+      --input-bg: #f9fafb;
+      --input-border: #e5e7eb;
+      --input-focus: rgba(13, 209, 229, 0.15);
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+      --font-outfit: 'Outfit', sans-serif;
+      --font-inter: 'Inter', sans-serif;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b0f19;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --grid-line: rgba(255, 255, 255, 0.03);
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --input-bg: #1e293b;
+      --input-border: #334155;
+      --input-focus: rgba(13, 209, 229, 0.25);
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      font-family: var(--font-inter);
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      transition: background-color 0.5s ease, color 0.3s ease;
+    }
+
+    /* GLOBAL GRID BACKGROUND */
+    .grid-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10%;
+    }
+
+    .grid-line {
+      width: 1px;
+      height: 100%;
+      background-color: var(--grid-line);
+      transition: background-color 0.5s ease;
+    }
+
+    /* HEADER & NAVIGATION */
+    header {
+      position: relative;
+      width: 100%;
+      padding: 30px 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      border-bottom: 1px solid var(--card-border);
+      background-color: var(--card-bg);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+    }
+
+    .logo-main {
+      display: flex;
+      align-items: center;
+      font-family: var(--font-outfit);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      gap: 2px;
+    }
+
+    .logo-main span.rain {
+      color: var(--text);
+    }
+
+    .logo-main span.hopes {
+      color: var(--text);
+    }
+
+    .logo-i-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 28px;
+    }
+
+    .logo-i-dot {
+      position: absolute;
+      top: 4px;
+      width: 5px;
+      height: 5px;
+      background-color: var(--primary);
+      border-radius: 50%;
+    }
+
+    .logo-i-stem {
+      position: absolute;
+      top: 11px;
+      width: 3px;
+      height: 12px;
+      background-color: var(--text);
+      border-radius: 1.5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .logo-i-ripples {
+      position: absolute;
+      bottom: 0px;
+      width: 18px;
+      height: 6px;
+    }
+
+    .logo-i-ripples circle {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 0.8;
+      transform-origin: center;
+    }
+
+    .logo-subtext {
+      font-size: 8px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-top: -2px;
+      text-transform: uppercase;
+    }
+
+    .dashboard-title-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(13, 209, 229, 0.1);
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-left: 20px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    nav a {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+      padding: 6px 0;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--text);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: var(--transition);
+    }
+
+    nav a:hover::after, nav a.active::after {
+      width: 100%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--card-border);
+      background-color: var(--card-bg);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-back {
+      background-color: var(--text);
+      color: var(--bg);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-back:hover {
+      background-color: var(--primary);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(13, 209, 229, 0.3);
+    }
+
+    /* MAIN CONTAINER */
+    main {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 40px 10%;
+    }
+
+    /* METRICS / STATS SECTION */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .metric-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background-color: var(--card-border);
+    }
+
+    .metric-card.accent::after {
+      background-color: var(--primary);
+    }
+
+    .metric-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background-color: var(--input-bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--card-border);
+    }
+
+    .metric-card.accent .metric-icon-box {
+      background-color: rgba(13, 209, 229, 0.1);
+      color: var(--primary);
+      border-color: rgba(13, 209, 229, 0.2);
+    }
+
+    .metric-details {
+      flex-1: 1;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-family: var(--font-outfit);
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    /* LEADS MANAGEMENT SECTION */
+    .dashboard-panel {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .panel-title-wrapper h2 {
+      font-family: var(--font-outfit);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+
+    .panel-title-wrapper p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .panel-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-action {
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .btn-action:hover {
+      background-color: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .btn-action-primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-action-primary:hover {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      color: #ffffff;
+    }
+
+    /* LEADS TABLE */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      background-color: var(--bg);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: var(--input-bg);
+      padding: 16px 20px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    td {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--card-border);
+      color: var(--text);
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr {
+      transition: background-color 0.2s ease;
+    }
+
+    tr:hover td {
+      background-color: rgba(13, 209, 229, 0.02);
+    }
+
+    .lead-name {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .lead-phone {
+      color: var(--text-muted);
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    .lead-date {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* STATUS BADGE */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .status-badge i {
+      width: 10px;
+      height: 10px;
+    }
+
+    .status-pending {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: #d97706;
+    }
+
+    .status-pending:hover {
+      background-color: rgba(245, 158, 11, 0.2);
+    }
+
+    .status-contacted {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: #059669;
+    }
+
+    .status-contacted:hover {
+      background-color: rgba(16, 185, 129, 0.2);
+    }
+
+    /* THUMBNAIL PREVIEW */
+    .lead-thumbnail-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--input-border);
+      cursor: pointer;
+      position: relative;
+      background-color: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .lead-thumbnail-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .lead-thumbnail-box:hover {
+      transform: scale(1.08);
+      border-color: var(--primary);
+      box-shadow: 0 4px 10px rgba(13, 209, 229, 0.2);
+    }
+
+    .lead-thumbnail-box::after {
+      content: '🔍';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .lead-thumbnail-box:hover::after {
+      opacity: 1;
+    }
+
+    .action-icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-icon-table {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .btn-icon-table:hover {
+      background-color: var(--input-bg);
+      color: var(--text);
+    }
+
+    .btn-icon-table.delete:hover {
+      background-color: #fee2e2;
+      color: #ef4444;
+      border-color: #fca5a5;
+    }
+
+    /* EMPTY STATE STYLE */
+    .empty-state {
+      padding: 80px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .empty-icon-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: var(--input-bg);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      border: 1px solid var(--card-border);
+    }
+
+    .empty-state h3 {
+      font-family: var(--font-outfit);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 380px;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    /* DETAILS MODAL VIEW */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(11, 15, 25, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      width: 90%;
+      max-width: 900px;
+      max-height: 85vh;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 20px 30px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title h3 {
+      font-family: var(--font-outfit);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .modal-title p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .modal-close:hover {
+      background-color: var(--input-bg);
+      color: var(--text);
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      padding: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #0b0f19;
+      position: relative;
+      height: 500px;
+    }
+
+    .modal-image-display {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      margin: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .modal-footer {
+      padding: 20px 30px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--card-bg);
+    }
+
+    .modal-lead-details {
+      display: flex;
+      gap: 24px;
+    }
+
+    .modal-lead-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-lead-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+
+    .modal-lead-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* TOAST STYLE */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      padding: 16px 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1100;
+      transform: translateY(150%);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+
+    .toast-content {
+      font-size: 14px;
+    }
+
+    .toast-title {
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: var(--text);
+    }
+
+    .toast-desc {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 1024px) {
+      header {
+        padding: 20px 5%;
+      }
+      
+      main {
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+
+      .dashboard-title-badge {
+        display: none; /* Hide badge on medium screens */
+      }
+    }
+
+    @media (max-width: 640px) {
+      nav {
+        display: flex;
+        gap: 15px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .panel-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .modal-footer {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+      }
+
+      .modal-lead-details {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GLOBAL GRID BACKGROUND -->
+  <div class="grid-bg">
+    <div class="grid-line"></div>
+    <div class="grid-line"></div>
+    <div class="grid-line"></div>
+    <div class="grid-line"></div>
+    <div class="grid-line"></div>
+    <div class="grid-line"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="logo-container">
+      <div class="logo-main">
+        <span class="rain">rain</span>
+        <div class="logo-i-wrapper">
+          <div class="logo-i-dot"></div>
+          <div class="logo-i-stem"></div>
+          <svg class="logo-i-ripples" viewBox="0 0 20 6">
+            <circle cx="10" cy="3" r="1"></circle>
+            <circle cx="10" cy="3" r="3.5"></circle>
+            <circle cx="10" cy="3" r="6"></circle>
+          </svg>
+        </div>
+        <span class="hopes">hopes</span>
+        <span class="dashboard-title-badge">Leads Hub</span>
+      </div>
+      <div class="logo-subtext">World is online... Are you?</div>
+    </a>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="admin.html" class="active">Winner</a>
+    </nav>
+
+    <div class="header-actions">
+      <!-- Dark mode switch -->
+      <button class="theme-toggle" id="theme-btn" aria-label="Toggle Theme">
+        <i data-lucide="moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main>
+    <!-- METRICS GRID -->
+    <div class="metrics-grid">
+      <!-- Total Leads -->
+      <div class="metric-card accent">
+        <div class="metric-icon-box">
+          <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+        </div>
+        <div class="metric-details">
+          <div class="metric-label">Total Audit Requests</div>
+          <div class="metric-value" id="stat-total">0</div>
+        </div>
+      </div>
+      
+      <!-- Pending Leads -->
+      <div class="metric-card">
+        <div class="metric-icon-box" style="color: #f59e0b; border-color: rgba(245, 158, 11, 0.15); background-color: rgba(245, 158, 11, 0.05);">
+          <i data-lucide="clock" style="width: 24px; height: 24px;"></i>
+        </div>
+        <div class="metric-details">
+          <div class="metric-label">Pending Audits</div>
+          <div class="metric-value" id="stat-pending" style="color: #f59e0b;">0</div>
+        </div>
+      </div>
+
+      <!-- Contacted / Completed Leads -->
+      <div class="metric-card">
+        <div class="metric-icon-box" style="color: #10b981; border-color: rgba(16, 185, 129, 0.15); background-color: rgba(16, 185, 129, 0.05);">
+          <i data-lucide="check-circle" style="width: 24px; height: 24px;"></i>
+        </div>
+        <div class="metric-details">
+          <div class="metric-label">Contacted Clients</div>
+          <div class="metric-value" id="stat-contacted" style="color: #10b981;">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN LEADS PANEL -->
+    <div class="dashboard-panel">
+      <div class="panel-header">
+        <div class="panel-title-wrapper">
+          <h2>Website Audit Leads</h2>
+          <p>Review uploaded design screenshots, call clients, and complete audits.</p>
+        </div>
+        <div class="panel-actions">
+          <button class="btn-action" id="btn-generate-demo">
+            <i data-lucide="database" style="width: 14px; height: 14px;"></i>
+            <span>Load Demo Leads</span>
+          </button>
+          <button class="btn-action" id="btn-clear-all" style="color: #ef4444;">
+            <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+            <span>Clear Leads</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TABLE / DISPLAY AREA -->
+      <div class="table-container" id="leads-table-container">
+        <!-- Javascript renders table or empty state dynamically -->
+      </div>
+    </div>
+  </main>
+
+  <!-- SCREENSHOT HIGHLIGHT MODAL -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 id="modal-client-name">Client Screenshot</h3>
+          <p id="modal-file-name">screenshot.png</p>
+        </div>
+        <button class="modal-close" id="modal-close" aria-label="Close modal">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img src="" alt="Client Homepage Mockup" class="modal-image-display" id="modal-img">
+      </div>
+      <div class="modal-footer">
+        <div class="modal-lead-details">
+          <div class="modal-lead-item">
+            <span class="modal-lead-label">Client Name</span>
+            <span class="modal-lead-val" id="modal-lead-name">John Doe</span>
+          </div>
+          <div class="modal-lead-item">
+            <span class="modal-lead-label">Phone Contact</span>
+            <span class="modal-lead-val" id="modal-lead-phone">(555) 000-0000</span>
+          </div>
+          <div class="modal-lead-item">
+            <span class="modal-lead-label">Received Date</span>
+            <span class="modal-lead-val" id="modal-lead-date">May 19, 2026</span>
+          </div>
+        </div>
+        <a href="" id="modal-btn-download" download="client-screenshot.png" class="btn-action btn-action-primary">
+          <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+          <span>Download Image</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast" id="toast">
+    <div class="toast-icon">
+      <i data-lucide="check" style="width: 14px; height: 14px;"></i>
+    </div>
+    <div class="toast-content">
+      <div class="toast-title" id="toast-title">Lead Updated</div>
+      <div class="toast-desc" id="toast-desc">Lead details saved successfully.</div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+    import { getDatabase, ref, onValue, set, remove, update, push } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB8_D9UEcLlxJffJ4ipf3YVlO9scRXbVLc",
+      authDomain: "alsalama-education.firebaseapp.com",
+      databaseURL: "https://alsalama-education-default-rtdb.firebaseio.com",
+      projectId: "alsalama-education",
+      storageBucket: "alsalama-education.firebasestorage.app",
+      messagingSenderId: "488399270433",
+      appId: "1:488399270433:web:a791f62dea8545b6cde960",
+      measurementId: "G-E2YYRZGTLC"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // 1. DARK & LIGHT MODE TOGGLE
+    const themeBtn = document.getElementById('theme-btn');
+    const htmlEl = document.documentElement;
+
+    // Sync theme on page load
+    const savedTheme = localStorage.getItem('rainhopes-theme') || 'light';
+    htmlEl.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', newTheme);
+      localStorage.setItem('rainhopes-theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+
+    function updateThemeIcon(theme) {
+      if (theme === 'dark') {
+        themeBtn.innerHTML = '<i data-lucide="sun"></i>';
+      } else {
+        themeBtn.innerHTML = '<i data-lucide="moon"></i>';
+      }
+      lucide.createIcons();
+    }
+
+    // 2. DYNAMIC TABLE & DATA LOGIC WITH FIREBASE
+    const tableContainer = document.getElementById('leads-table-container');
+    const statTotal = document.getElementById('stat-total');
+    const statPending = document.getElementById('stat-pending');
+    const statContacted = document.getElementById('stat-contacted');
+
+    const btnGenerateDemo = document.getElementById('btn-generate-demo');
+    const btnClearAll = document.getElementById('btn-clear-all');
+
+    let currentLeads = [];
+
+    // Realtime Sync from Firebase Realtime Database
+    onValue(ref(db, 'leads'), (snapshot) => {
+      const data = snapshot.val();
+      currentLeads = [];
+      if (data) {
+        currentLeads = Object.keys(data).map(key => ({
+          firebaseId: key,
+          ...data[key]
+        }));
+        // Sort submissions newest first
+        currentLeads.sort((a, b) => new Date(b.date) - new Date(a.date));
+      }
+
+      // Update statistics
+      statTotal.textContent = currentLeads.length;
+      statPending.textContent = currentLeads.filter(l => l.status === 'Pending Review').length;
+      statContacted.textContent = currentLeads.filter(l => l.status === 'Contacted').length;
+
+      if (currentLeads.length === 0) {
+        renderEmptyState();
+        return;
+      }
+
+      renderTable(currentLeads);
+    });
+
+    function renderEmptyState() {
+      tableContainer.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon-box">
+            <i data-lucide="image" style="width: 32px; height: 32px;"></i>
+          </div>
+          <h3>No Audit Requests Yet</h3>
+          <p>When potential clients upload website screenshots on your home page, their request details will populate this grid automatically.</p>
+          <a href="index.html" class="btn-action btn-action-primary" style="text-decoration: none;">
+            <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+            <span>Submit a Test Lead</span>
+          </a>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    function renderTable(leads) {
+      let html = `
+        <table>
+          <thead>
+            <tr>
+              <th>Client Info</th>
+              <th>Phone</th>
+              <th>Submitted At</th>
+              <th>Homepage Screenshot</th>
+              <th>Audit Status</th>
+              <th style="text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      leads.forEach(lead => {
+        const isPending = lead.status === 'Pending Review';
+        const badgeClass = isPending ? 'status-pending' : 'status-contacted';
+        const badgeIcon = isPending ? 'clock' : 'check-circle';
+        
+        html += `
+          <tr id="${lead.id}">
+            <td>
+              <div class="lead-name">${escapeHTML(lead.name)}</div>
+            </td>
+            <td>
+              <div class="lead-phone">${escapeHTML(lead.phone)}</div>
+            </td>
+            <td>
+              <div class="lead-date">${lead.date}</div>
+            </td>
+            <td>
+              <div class="lead-thumbnail-box" onclick="viewScreenshot('${lead.id}')">
+                <img src="${lead.screenshot}" alt="thumbnail">
+              </div>
+            </td>
+            <td>
+              <span class="status-badge ${badgeClass}" onclick="toggleLeadStatus('${lead.id}')" title="Click to toggle status">
+                <i data-lucide="${badgeIcon}"></i>
+                <span>${lead.status}</span>
+              </span>
+            </td>
+            <td style="text-align: right;">
+              <div class="action-icons" style="justify-content: flex-end;">
+                <button class="btn-icon-table" onclick="viewScreenshot('${lead.id}')" title="Zoom Screenshot">
+                  <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>
+                </button>
+                <button class="btn-icon-table delete" onclick="deleteLead('${lead.id}')" title="Delete lead">
+                  <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+      tableContainer.innerHTML = html;
+      lucide.createIcons();
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    // 3. LEAD OPERATIONS IN FIREBASE
+    window.toggleLeadStatus = function(leadId) {
+      const lead = currentLeads.find(l => l.id === leadId);
+      if (lead && lead.firebaseId) {
+        const nextStatus = lead.status === 'Pending Review' ? 'Contacted' : 'Pending Review';
+        update(ref(db, 'leads/' + lead.firebaseId), { status: nextStatus })
+          .then(() => {
+            showToast('Status Updated', `Lead status marked as ${nextStatus}.`);
+          })
+          .catch(err => {
+            console.error("Firebase update status error:", err);
+            showToast('Firebase Error', 'Could not update status on database.', 'error');
+          });
+      }
+    };
+
+    window.deleteLead = function(leadId) {
+      if (confirm('Are you sure you want to delete this lead?')) {
+        const lead = currentLeads.find(l => l.id === leadId);
+        if (lead && lead.firebaseId) {
+          remove(ref(db, 'leads/' + lead.firebaseId))
+            .then(() => {
+              // Visual fade out transition
+              const row = document.getElementById(leadId);
+              if (row) {
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(-20px)';
+                row.style.transition = 'all 0.3s ease';
+                setTimeout(() => {
+                  showToast('Lead Deleted', 'Request was removed from the database.');
+                }, 300);
+              }
+            })
+            .catch(err => {
+              console.error("Firebase delete error:", err);
+              showToast('Firebase Error', 'Could not delete lead from database.', 'error');
+            });
+        }
+      }
+    };
+
+    // Clear all requests on Firebase
+    btnClearAll.addEventListener('click', () => {
+      if (confirm('Are you sure you want to delete ALL leads from Firebase? This cannot be undone.')) {
+        remove(ref(db, 'leads'))
+          .then(() => {
+            showToast('All Leads Cleared', 'Database has been reset.');
+          })
+          .catch(err => {
+            console.error("Firebase clear error:", err);
+            showToast('Firebase Error', 'Could not reset database.', 'error');
+          });
+      }
+    });
+
+    // 4. SCREENSHOT MODAL VIEWER LOGIC
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalImg = document.getElementById('modal-img');
+    const modalClientName = document.getElementById('modal-client-name');
+    const modalFileName = document.getElementById('modal-file-name');
+    const modalLeadName = document.getElementById('modal-lead-name');
+    const modalLeadPhone = document.getElementById('modal-lead-phone');
+    const modalLeadDate = document.getElementById('modal-lead-date');
+    const modalBtnDownload = document.getElementById('modal-btn-download');
+    const modalCloseBtn = document.getElementById('modal-close');
+
+    window.viewScreenshot = function(leadId) {
+      const lead = currentLeads.find(l => l.id === leadId);
+      if (lead) {
+        modalImg.src = lead.screenshot;
+        modalClientName.textContent = `${lead.name}'s Homepage Mockup`;
+        modalFileName.textContent = lead.fileName || 'screenshot.png';
+        modalLeadName.textContent = lead.name;
+        modalLeadPhone.textContent = lead.phone;
+        modalLeadDate.textContent = lead.date;
+        
+        // Prepare named download
+        modalBtnDownload.onclick = function() {
+          const downloadLink = document.createElement('a');
+          downloadLink.href = lead.screenshot;
+          const safeName = lead.name.replace(/[^a-z0-9]/gi, '_');
+          downloadLink.download = `${safeName}_homepage.png`;
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+          showToast('Download Started', `Saving ${safeName}_homepage.png`);
+        };
+        
+        modalOverlay.classList.add('open');
+      }
+    };
+
+    function closeModal() {
+      modalOverlay.classList.remove('open');
+      setTimeout(() => {
+        modalImg.src = '';
+      }, 300);
+    }
+
+    modalCloseBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+    });
+
+    // 5. TOAST NOTIFICATION UTILITY
+    const toast = document.getElementById('toast');
+    const toastTitle = document.getElementById('toast-title');
+    const toastDesc = document.getElementById('toast-desc');
+    let toastTimeout;
+
+    function showToast(title, description) {
+      clearTimeout(toastTimeout);
+      toastTitle.textContent = title;
+      toastDesc.textContent = description;
+      toast.classList.add('show');
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+
+    // 6. GENERATE DEMO LEADS DATA
+    btnGenerateDemo.addEventListener('click', () => {
+      const mockImage1 = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><rect width="800" height="600" fill="%230b0f19"/><circle cx="400" cy="300" r="180" fill="none" stroke="%230dd1e5" stroke-width="4" stroke-opacity="0.2"/><path d="M 150 150 L 650 450" stroke="%23ffffff" stroke-width="1" stroke-opacity="0.1"/><text x="400" y="280" font-family="sans-serif" font-size="28" font-weight="bold" fill="%23ffffff" text-anchor="middle">SOLARIS SAAS</text><text x="400" y="320" font-family="sans-serif" font-size="16" fill="%230dd1e5" text-anchor="middle">Corporate Homepage Layout Mockup</text><rect x="50" y="500" width="700" height="2" fill="%23ffffff" fill-opacity="0.05"/></svg>';
+      
+      const mockImage2 = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><rect width="800" height="600" fill="%23ffffff"/><rect x="100" y="100" width="600" height="400" fill="%23f9fafb" rx="10" stroke="%23e5e7eb" stroke-width="2"/><circle cx="200" cy="200" r="50" fill="%230dd1e5" fill-opacity="0.8"/><text x="400" y="290" font-family="sans-serif" font-size="32" font-weight="900" fill="%23111827" text-anchor="middle">AURA AGENCY</text><text x="400" y="330" font-family="sans-serif" font-size="14" fill="%236b7280" text-anchor="middle">Portfolio and Case Studies Design Draft</text></svg>';
+
+      const demoLeads = [
+        {
+          id: 'demo_1',
+          name: 'Sarah Connor',
+          phone: '(415) 555-8291',
+          screenshot: mockImage1,
+          fileName: 'solaris-mockup-new.png',
+          date: new Date(Date.now() - 1000 * 60 * 32).toLocaleString(),
+          status: 'Pending Review'
+        },
+        {
+          id: 'demo_2',
+          name: 'Arthur Pendragon',
+          phone: '(312) 555-9021',
+          screenshot: mockImage2,
+          fileName: 'aura-agency-draft.jpg',
+          date: new Date(Date.now() - 1000 * 60 * 180).toLocaleString(),
+          status: 'Contacted'
+        }
+      ];
+
+      // Push all to Firebase Database
+      demoLeads.forEach(lead => {
+        try {
+          const newLeadRef = push(ref(db, 'leads'));
+          set(newLeadRef, lead);
+        } catch (err) {
+          console.error("Firebase demo push error:", err);
+        }
+      });
+      showToast('Demo Leads Generated', 'Pre-configured request leads were loaded successfully.');
+    });
+  </script>
+</body>
+</html>
