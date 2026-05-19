@@ -305,49 +305,78 @@
       transform: translateX(4px);
     }
 
-    /* VERTICAL SOCIAL BAR */
+    /* VERTICAL SOCIAL BAR - HIGH-END DYNAMIC PILL MENU */
     .social-sidebar {
       position: fixed;
-      left: 3%;
+      left: 24px;
       top: 50%;
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
-      gap: 60px;
-      z-index: 10;
+      gap: 16px;
+      z-index: 100;
     }
 
     .social-link {
       display: flex;
       align-items: center;
-      gap: 10px;
-      text-decoration: none;
+      justify-content: flex-start;
+      width: 46px;
+      height: 46px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 50%;
       color: var(--text-muted);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transform: rotate(-90deg) translateX(-50%);
-      transform-origin: left center;
-      transition: var(--transition);
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
       position: relative;
+      padding-left: 14px;
       white-space: nowrap;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     }
 
-    .social-link i {
-      transform: rotate(90deg);
-      width: 14px;
-      height: 14px;
-      transition: var(--transition);
+    .social-link svg {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      transition: transform 0.4s ease, color 0.4s ease;
+      color: var(--text-muted);
     }
 
+    .social-link span {
+      margin-left: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      color: var(--text);
+    }
+
+    /* Hover State: Smooth pill transition and rotation */
     .social-link:hover {
+      width: 140px;
+      border-radius: 30px;
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 10px 25px rgba(13, 209, 229, 0.25);
+      background: linear-gradient(90deg, rgba(13, 209, 229, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+
+    .social-link:hover svg {
+      transform: scale(1.1) rotate(360deg);
       color: var(--primary);
     }
 
-    .social-link:hover i {
-      color: var(--primary);
-      transform: rotate(90deg) scale(1.2);
+    .social-link:hover span {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     /* MAIN CONTENT WRAPPER */
@@ -913,7 +942,7 @@
 
     <nav>
       <a href="index.html" class="active">Home</a>
-      <a href="admin.html">Winner</a>
+      <a href="winner.html">Winner</a>
     </nav>
 
     <div class="header-actions">
@@ -1037,11 +1066,10 @@
   </div>
 
   <!-- JAVASCRIPT FOR DYNAMIC SUNBURST, INTERACTION, AND LOGIC -->
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-    import { getDatabase, ref, set, push } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
-
+  <!-- Load Firebase compat library to ensure flawless execution when opened locally (file:// protocol) bypassing module CORS restrictions -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script>
     // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyB8_D9UEcLlxJffJ4ipf3YVlO9scRXbVLc",
@@ -1055,8 +1083,9 @@
     };
 
     // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
     // Initialize Lucide Icons
     lucide.createIcons();
 
@@ -1359,8 +1388,7 @@
 
         // Save submission to Firebase Realtime Database
         try {
-          const newLeadRef = push(ref(db, 'leads'));
-          set(newLeadRef, submission)
+          db.ref('leads').push(submission)
             .then(() => {
               console.log("Lead synced successfully to Firebase Realtime Database!");
             })
@@ -1377,7 +1405,7 @@
 
         // Redirect to admin dashboard after a short delay so user can see all submitted forms
         setTimeout(() => {
-          window.location.href = 'admin.html';
+          window.location.href = 'winner.html';
         }, 2000);
 
       }, 1500);
