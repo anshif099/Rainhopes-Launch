@@ -1375,15 +1375,10 @@
         showToast('Audit Request Submitted!', 'Our team will review your website screenshot shortly.', 'success');
         triggerConfetti();
 
-        // Clear input form after a short delay
+        // Redirect to admin dashboard after a short delay so user can see all submitted forms
         setTimeout(() => {
-          auditForm.reset();
-          base64Image = '';
-          fileInput.value = '';
-          previewContainer.style.display = 'none';
-          uploadZone.style.display = 'block';
-          submitBtn.classList.remove('success');
-        }, 3000);
+          window.location.href = 'admin.html';
+        }, 2000);
 
       }, 1500);
     });
