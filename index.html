@@ -24,7 +24,7 @@
       --card-border: rgba(0, 0, 0, 0.08);
       --input-bg: #f9fafb;
       --input-border: #e5e7eb;
-      --input-focus: rgba(13, 209, 229, 0.15);
+      --input-focus: rgba(var(--primary-rgb), 0.15);
       --shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
       --font-outfit: 'Outfit', sans-serif;
       --font-inter: 'Inter', sans-serif;
@@ -40,7 +40,7 @@
       --card-border: rgba(255, 255, 255, 0.08);
       --input-bg: #1e293b;
       --input-border: #334155;
-      --input-focus: rgba(13, 209, 229, 0.25);
+      --input-focus: rgba(var(--primary-rgb), 0.25);
       --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
 
@@ -112,7 +112,7 @@
       font-family: var(--font-outfit);
       font-size: 26vw;
       font-weight: 800;
-      color: rgba(13, 209, 229, 0.04);
+      color: rgba(var(--primary-rgb), 0.04);
       pointer-events: none;
       z-index: 1;
       white-space: nowrap;
@@ -138,6 +138,22 @@
       display: flex;
       flex-direction: column;
       text-decoration: none;
+    }
+
+    .company-header-logo {
+      max-width: 150px;
+      max-height: 58px;
+      object-fit: contain;
+      display: none;
+    }
+
+    .logo-container.has-company-logo .company-header-logo {
+      display: block;
+    }
+
+    .logo-container.has-company-logo .logo-main,
+    .logo-container.has-company-logo .logo-subtext {
+      display: none;
     }
 
     .logo-main {
@@ -294,7 +310,7 @@
       background-color: var(--primary);
       color: #ffffff;
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(13, 209, 229, 0.3);
+      box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.3);
     }
 
     .btn-hire i {
@@ -363,8 +379,8 @@
       border-radius: 30px;
       color: #ffffff;
       border-color: var(--primary);
-      box-shadow: 0 10px 25px rgba(13, 209, 229, 0.25);
-      background: linear-gradient(90deg, rgba(13, 209, 229, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%);
+      box-shadow: 0 10px 25px rgba(var(--primary-rgb), 0.25);
+      background: linear-gradient(90deg, rgba(var(--primary-rgb), 0.1) 0%, rgba(var(--primary-rgb), 0.04) 100%);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
     }
@@ -409,7 +425,7 @@
 
     .hero-title span.cyan-text {
       color: var(--primary);
-      background: linear-gradient(135deg, var(--primary) 0%, #00b4d8 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -456,7 +472,7 @@
     .btn-outline-primary:hover {
       background-color: var(--primary);
       color: #ffffff;
-      box-shadow: 0 8px 20px rgba(13, 209, 229, 0.25);
+      box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.25);
     }
 
     /* FORM CARD CONTAINER */
@@ -480,11 +496,19 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, var(--primary) 0%, #00b4d8 100%);
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-hover) 100%);
     }
 
     .form-header {
       margin-bottom: 30px;
+    }
+
+    .company-form-logo {
+      max-width: 120px;
+      max-height: 70px;
+      object-fit: contain;
+      display: none;
+      margin-bottom: 18px;
     }
 
     .form-header h2 {
@@ -589,7 +613,7 @@
     .upload-zone:hover .upload-icon-wrapper, .upload-zone.dragover .upload-icon-wrapper {
       color: var(--primary);
       transform: translateY(-4px);
-      box-shadow: 0 6px 15px rgba(13, 209, 229, 0.15);
+      box-shadow: 0 6px 15px rgba(var(--primary-rgb), 0.15);
     }
 
     .upload-text {
@@ -708,7 +732,7 @@
     .btn-submit:hover {
       background-color: var(--primary);
       color: #ffffff;
-      box-shadow: 0 10px 25px rgba(13, 209, 229, 0.3);
+      box-shadow: 0 10px 25px rgba(var(--primary-rgb), 0.3);
       transform: translateY(-1px);
     }
 
@@ -922,7 +946,8 @@
 
   <!-- HEADER -->
   <header>
-    <a href="#" class="logo-container">
+    <a href="#" class="logo-container" id="site-logo-container">
+      <img src="" alt="Company logo" class="company-header-logo" id="company-header-logo">
       <div class="logo-main">
         <span class="rain">rain</span>
         <div class="logo-i-wrapper">
@@ -941,8 +966,8 @@
     </a>
 
     <nav>
-      <a href="index.html" class="active">Home</a>
-      <a href="winner.html">Winner</a>
+      <a href="index.html" class="active" id="nav-home-link">Home</a>
+      <a href="winner.html" id="nav-winner-link">Winner</a>
     </nav>
 
     <div class="header-actions">
@@ -993,8 +1018,9 @@
     <!-- Right Column: Interactive Form -->
     <div class="form-container-card" id="audit-form-section">
       <div class="form-header">
-        <h2>Request a Free Website Audit</h2>
-        <p>Fill out your contact details and upload a screenshot of your current homepage. Our agency experts will analyze it within 24 hours.</p>
+        <img src="" alt="Company logo" class="company-form-logo" id="company-form-logo">
+        <h2 id="form-title">Request a Free Website Audit</h2>
+        <p id="form-description">Fill out your contact details and upload a screenshot of your current homepage. Our agency experts will analyze it within 24 hours.</p>
       </div>
 
       <form id="audit-form" novalidate>
@@ -1086,6 +1112,125 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const LEADS_PATH = 'form';
+    const COMPANIES_PATH = 'form/__companies';
+    const COMPANY_SUBMISSIONS_KEY = 'submissions';
+    const DEFAULT_THEME_COLOR = '#0dd1e5';
+    const urlParams = new URLSearchParams(window.location.search);
+    const companyId = urlParams.get('company') || '';
+    const urlTheme = urlParams.get('theme') || '';
+    const urlThemeColor = /^#?[0-9a-f]{6}$/i.test(urlTheme)
+      ? `#${urlTheme.replace('#', '')}`
+      : '';
+    const activeLeadsPath = companyId ? `${COMPANIES_PATH}/${companyId}/${COMPANY_SUBMISSIONS_KEY}` : LEADS_PATH;
+    const companyRef = companyId ? db.ref(`${COMPANIES_PATH}/${companyId}`) : null;
+    let activeCompany = null;
+
+    const companyFormLogo = document.getElementById('company-form-logo');
+    const companyHeaderLogo = document.getElementById('company-header-logo');
+    const siteLogoContainer = document.getElementById('site-logo-container');
+    const formTitle = document.getElementById('form-title');
+    const formDescription = document.getElementById('form-description');
+    const navHomeLink = document.getElementById('nav-home-link');
+    const navWinnerLink = document.getElementById('nav-winner-link');
+
+    function hexToRgb(hex) {
+      const normalized = String(hex || DEFAULT_THEME_COLOR).replace('#', '');
+      const value = normalized.length === 3
+        ? normalized.split('').map(char => char + char).join('')
+        : normalized.padEnd(6, '0').slice(0, 6);
+      return {
+        r: parseInt(value.slice(0, 2), 16),
+        g: parseInt(value.slice(2, 4), 16),
+        b: parseInt(value.slice(4, 6), 16)
+      };
+    }
+
+    function rgbToHex(r, g, b) {
+      return '#' + [r, g, b]
+        .map(value => Math.max(0, Math.min(255, Math.round(value))).toString(16).padStart(2, '0'))
+        .join('');
+    }
+
+    function setPrimaryTheme(hex) {
+      const rgb = hexToRgb(hex);
+      document.documentElement.style.setProperty('--primary', hex);
+      document.documentElement.style.setProperty('--primary-rgb', `${rgb.r}, ${rgb.g}, ${rgb.b}`);
+      document.documentElement.style.setProperty('--primary-hover', rgbToHex(rgb.r * 0.9, rgb.g * 0.9, rgb.b * 0.9));
+      updatePrimaryDecor(rgb);
+    }
+
+    function getActiveThemeColor(company) {
+      return (company && company.themeColor) || urlThemeColor || DEFAULT_THEME_COLOR;
+    }
+
+    function buildPublicPageUrl(pageName, company) {
+      const url = new URL(pageName, window.location.href);
+      if (companyId) {
+        url.searchParams.set('company', companyId);
+        url.searchParams.set('theme', getActiveThemeColor(company).replace('#', ''));
+      }
+      return url.href;
+    }
+
+    function updatePublicNavLinks(company) {
+      navHomeLink.href = buildPublicPageUrl('index.html', company);
+      navWinnerLink.href = buildPublicPageUrl('winner.html', company);
+      siteLogoContainer.href = navHomeLink.href;
+    }
+
+    function updatePrimaryDecor(rgb) {
+      document.querySelectorAll('#sunburst line').forEach(line => {
+        line.setAttribute('stroke', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.22)`);
+      });
+    }
+
+    function getCurrentPrimaryRgb() {
+      const primaryRgb = getComputedStyle(document.documentElement)
+        .getPropertyValue('--primary-rgb')
+        .trim()
+        .split(',')
+        .map(value => Number(value.trim()));
+
+      return {
+        r: primaryRgb[0] || 13,
+        g: primaryRgb[1] || 209,
+        b: primaryRgb[2] || 229
+      };
+    }
+
+    function applyCompanyFormBranding(company) {
+      if (!company) return;
+
+      activeCompany = company;
+      setPrimaryTheme(getActiveThemeColor(company));
+      updatePublicNavLinks(company);
+
+      if (company.logo) {
+        companyFormLogo.src = company.logo;
+        companyFormLogo.style.display = 'block';
+        companyHeaderLogo.src = company.logo;
+        siteLogoContainer.classList.add('has-company-logo');
+      }
+
+      const companyName = company.companyName || company.name || 'Company';
+      formTitle.textContent = `${companyName} Website Audit`;
+      formDescription.textContent = 'Fill out your contact details and upload a screenshot. The company team will review your request shortly.';
+      document.title = `${companyName} | Website Audit Form`;
+    }
+
+    if (companyRef) {
+      if (urlThemeColor) setPrimaryTheme(urlThemeColor);
+      updatePublicNavLinks(null);
+
+      companyRef.once('value')
+        .then(snapshot => {
+          const company = snapshot.val();
+          if (company) applyCompanyFormBranding(company);
+        })
+        .catch(err => {
+          console.error("Company branding load error:", err);
+        });
+    }
 
     // Initialize Lucide Icons
     lucide.createIcons();
@@ -1102,7 +1247,8 @@
         line.setAttribute('x2', '250');
         line.setAttribute('y2', '25');  // Ending outer radius
         line.setAttribute('transform', `rotate(${angle} 250 250)`);
-        line.setAttribute('stroke', 'rgba(13, 209, 229, 0.22)');
+        const primaryRgb = getComputedStyle(document.documentElement).getPropertyValue('--primary-rgb').trim() || '13, 209, 229';
+        line.setAttribute('stroke', `rgba(${primaryRgb}, 0.22)`);
         line.setAttribute('stroke-width', '1.5');
         sunburst.appendChild(line);
       }
@@ -1280,7 +1426,14 @@
         this.x = x;
         this.y = y;
         this.size = Math.random() * 8 + 4;
-        this.color = `hsl(${Math.random() * 50 + 175}, 100%, 55%)`; // Cyan variations
+        const themeRgb = getCurrentPrimaryRgb();
+        const mixWithWhite = Math.random() * 0.42;
+        const jitter = Math.random() * 24 - 8;
+        this.color = rgbToHex(
+          themeRgb.r + (255 - themeRgb.r) * mixWithWhite + jitter,
+          themeRgb.g + (255 - themeRgb.g) * mixWithWhite + jitter,
+          themeRgb.b + (255 - themeRgb.b) * mixWithWhite + jitter
+        );
         this.speedX = Math.random() * 6 - 3;
         this.speedY = Math.random() * -10 - 5;
         this.gravity = 0.35;
@@ -1345,7 +1498,7 @@
     function getFirebaseSaveMessage(error) {
       const message = (error && (error.message || error.code) || '').toString().toLowerCase();
       if (message.includes('permission')) {
-        return `Firebase rules blocked this save. Allow writes to /${LEADS_PATH} in Realtime Database rules.`;
+        return `Firebase rules blocked this save. Allow writes to /${activeLeadsPath} in Realtime Database rules.`;
       }
       return 'Could not save to Firebase. Please check your internet connection and Firebase database URL.';
     }
@@ -1373,7 +1526,7 @@
         return;
       }
 
-      const leadRef = db.ref(LEADS_PATH).push();
+      const leadRef = db.ref(activeLeadsPath).push();
       const createdAt = Date.now();
       const submission = {
         id: leadRef.key,
@@ -1383,7 +1536,9 @@
         fileName: previewName.textContent || 'screenshot.png',
         date: new Date(createdAt).toLocaleString(),
         createdAt: createdAt,
-        status: 'Pending Review'
+        status: 'Pending Review',
+        companyId: companyId || '',
+        companyName: activeCompany ? (activeCompany.companyName || activeCompany.name || '') : ''
       };
 
       submitBtn.classList.add('loading');
@@ -1393,9 +1548,10 @@
       try {
         await leadRef.set(submission);
 
-        let submissions = JSON.parse(localStorage.getItem('rainhopes-leads') || '[]');
+        const localStorageKey = companyId ? `rainhopes-leads-${companyId}` : 'rainhopes-leads';
+        let submissions = JSON.parse(localStorage.getItem(localStorageKey) || '[]');
         submissions.unshift(submission);
-        localStorage.setItem('rainhopes-leads', JSON.stringify(submissions));
+        localStorage.setItem(localStorageKey, JSON.stringify(submissions));
 
         submitBtn.classList.remove('loading');
         submitBtn.classList.add('success');
@@ -1405,8 +1561,20 @@
         showToast('Audit Request Submitted!', 'Our team will review your website screenshot shortly.', 'success');
         triggerConfetti();
 
-        // Redirect after a short delay so the user can see the success state
+        // Company-specific forms stay on the shared form after submission.
         setTimeout(() => {
+          if (companyId) {
+            auditForm.reset();
+            base64Image = '';
+            fileInput.value = '';
+            previewImg.src = '';
+            previewContainer.style.display = 'none';
+            uploadZone.style.display = 'block';
+            submitBtn.classList.remove('success');
+            submitBtn.disabled = false;
+            return;
+          }
+
           window.location.href = 'winner.html';
         }, 2000);
       } catch (err) {

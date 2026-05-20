@@ -850,6 +850,174 @@
       line-height: 1.6;
     }
 
+    .company-form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+      gap: 16px;
+      align-items: end;
+    }
+
+    .company-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .company-field label {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .company-field input {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 10px;
+      border: 1px solid var(--input-border);
+      background-color: var(--input-bg);
+      color: var(--text);
+      padding: 12px 14px;
+      font-family: var(--font-inter);
+      font-size: 14px;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .company-field input:focus {
+      border-color: var(--primary);
+      background-color: var(--bg);
+      box-shadow: 0 0 0 4px var(--input-focus);
+    }
+
+    .company-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .company-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 18px;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      background-color: var(--input-bg);
+    }
+
+    .company-row-main {
+      min-width: 0;
+    }
+
+    .company-name {
+      font-weight: 800;
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .company-meta {
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 4px;
+      word-break: break-word;
+    }
+
+    .company-password {
+      color: var(--text);
+      font-family: monospace;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .company-empty {
+      padding: 32px 18px;
+      border: 1px dashed var(--card-border);
+      border-radius: 14px;
+      background-color: var(--input-bg);
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .share-link-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .share-link-input {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 10px;
+      border: 1px solid var(--input-border);
+      background-color: var(--input-bg);
+      color: var(--text);
+      padding: 12px 14px;
+      font-family: monospace;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .company-logo-settings {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .company-logo-preview {
+      width: 180px;
+      aspect-ratio: 1;
+      border-radius: 18px;
+      border: 1px solid var(--card-border);
+      background-color: var(--input-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: var(--text-muted);
+    }
+
+    .company-logo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 16px;
+    }
+
+    .company-theme-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 16px;
+    }
+
+    .company-theme-swatch {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.12);
+      flex: 0 0 auto;
+    }
+
+    .company-brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      object-fit: contain;
+      background-color: var(--input-bg);
+      border: 1px solid var(--card-border);
+      padding: 3px;
+      display: none;
+    }
+
     /* WINNER DRAW */
     .draw-grid {
       display: grid;
@@ -1069,6 +1237,156 @@
       box-shadow: none;
     }
 
+    body.auth-locked {
+      overflow: hidden;
+    }
+
+    body.auth-locked .admin-sidebar,
+    body.auth-locked .admin-main {
+      display: none;
+    }
+
+    .admin-login-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(var(--primary-rgb), 0.12), transparent 34%),
+        var(--bg);
+    }
+
+    body.auth-locked .admin-login-overlay {
+      display: flex;
+    }
+
+    .admin-login-card {
+      width: min(100%, 420px);
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.16);
+      padding: 34px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .admin-login-brand {
+      margin-bottom: 26px;
+    }
+
+    .admin-login-brand .logo-main {
+      font-size: 28px;
+    }
+
+    .admin-login-card h1 {
+      font-family: var(--font-outfit);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0;
+      margin-bottom: 8px;
+    }
+
+    .admin-login-card p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .admin-login-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .admin-login-group label {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .admin-login-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .admin-login-input-wrap i {
+      position: absolute;
+      left: 15px;
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .admin-login-input-wrap input {
+      width: 100%;
+      min-height: 50px;
+      padding: 13px 15px 13px 46px;
+      border-radius: 10px;
+      border: 1px solid var(--input-border);
+      background-color: var(--input-bg);
+      color: var(--text);
+      font-family: var(--font-inter);
+      font-size: 15px;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .admin-login-input-wrap input:focus {
+      border-color: var(--primary);
+      background-color: var(--bg);
+      box-shadow: 0 0 0 4px var(--input-focus);
+    }
+
+    .admin-login-error {
+      min-height: 18px;
+      margin: 0 0 16px 0 !important;
+      color: #ef4444 !important;
+      font-size: 13px !important;
+      font-weight: 600;
+    }
+
+    .admin-login-button {
+      width: 100%;
+      min-height: 50px;
+      border: none;
+      border-radius: 10px;
+      background-color: var(--text);
+      color: var(--bg);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: var(--font-inter);
+      font-size: 15px;
+      font-weight: 800;
+      transition: var(--transition);
+    }
+
+    .admin-login-button:hover {
+      background-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 10px 25px rgba(13, 209, 229, 0.26);
+      transform: translateY(-1px);
+    }
+
+    .sidebar-button {
+      width: 100%;
+      background: none;
+      font-family: var(--font-inter);
+      text-align: left;
+    }
+
     @keyframes drawSpin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -1109,6 +1427,20 @@
         grid-template-columns: 1fr;
       }
 
+      .company-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .company-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .share-link-grid,
+      .company-logo-settings {
+        grid-template-columns: 1fr;
+      }
+
       .draw-grid {
         grid-template-columns: 1fr;
       }
@@ -1134,7 +1466,7 @@
     }
   </style>
 </head>
-<body>
+<body class="auth-locked">
 
   <!-- GLOBAL GRID BACKGROUND -->
   <div class="grid-bg">
@@ -1144,6 +1476,47 @@
     <div class="grid-line"></div>
     <div class="grid-line"></div>
     <div class="grid-line"></div>
+  </div>
+
+  <!-- ADMIN LOGIN -->
+  <div class="admin-login-overlay" id="admin-login-overlay" role="dialog" aria-modal="true" aria-labelledby="admin-login-title">
+    <form class="admin-login-card" id="admin-login-form" autocomplete="off">
+      <div class="admin-login-brand">
+        <div class="logo-main">
+          <span class="rain">rain</span>
+          <div class="logo-i-wrapper">
+            <div class="logo-i-dot"></div>
+            <div class="logo-i-stem"></div>
+          </div>
+          <span class="hopes">hopes</span>
+        </div>
+        <div class="logo-subtext">Admin Workspace</div>
+      </div>
+      <h1 id="admin-login-title">Admin Login</h1>
+      <p>Enter the admin credentials to unlock the submissions dashboard and winner draw controls.</p>
+
+      <div class="admin-login-group">
+        <label for="admin-login-username">Username</label>
+        <div class="admin-login-input-wrap">
+          <i data-lucide="user"></i>
+          <input type="text" id="admin-login-username" required autocomplete="username">
+        </div>
+      </div>
+
+      <div class="admin-login-group">
+        <label for="admin-login-password">Password</label>
+        <div class="admin-login-input-wrap">
+          <i data-lucide="lock-keyhole"></i>
+          <input type="password" id="admin-login-password" required autocomplete="current-password">
+        </div>
+      </div>
+
+      <p class="admin-login-error" id="admin-login-error" aria-live="polite"></p>
+      <button type="submit" class="admin-login-button">
+        <i data-lucide="log-in" style="width: 18px; height: 18px;"></i>
+        <span>Sign In</span>
+      </button>
+    </form>
   </div>
 
   <!-- SIDEBAR NAVIGATION -->
@@ -1173,13 +1546,29 @@
         <i data-lucide="shuffle"></i>
         <span>Winner Draw</span>
       </a>
-      <a class="sidebar-link" onclick="switchTab('settings')">
+      <a class="sidebar-link" data-company-only onclick="switchTab('share')">
+        <i data-lucide="share-2"></i>
+        <span>Share Form</span>
+      </a>
+      <a class="sidebar-link" data-company-only onclick="switchTab('company-settings')">
+        <i data-lucide="image-plus"></i>
+        <span>Settings</span>
+      </a>
+      <a class="sidebar-link" data-superadmin-only onclick="switchTab('companies')">
+        <i data-lucide="building-2"></i>
+        <span>Companies</span>
+      </a>
+      <a class="sidebar-link" data-superadmin-only onclick="switchTab('settings')">
         <i data-lucide="sliders-horizontal"></i>
         <span>Database Tools</span>
       </a>
     </div>
 
     <div class="sidebar-footer">
+      <button type="button" class="sidebar-link sidebar-button" id="admin-logout-btn" style="padding: 10px 18px; font-weight: 500;">
+        <i data-lucide="log-out"></i>
+        <span>Log Out</span>
+      </button>
       <a href="index.html" class="sidebar-link" style="padding: 10px 18px; font-weight: 500;">
         <i data-lucide="home"></i>
         <span>Back to Home</span>
@@ -1202,7 +1591,8 @@
       </div>
       <div class="admin-badge-profile">
         <div class="dot"></div>
-        <span>Rainhopes Admin</span>
+        <img src="" alt="" class="company-brand-logo" id="company-brand-logo">
+        <span id="admin-profile-name">Rainhopes Admin</span>
       </div>
     </header>
 
@@ -1268,7 +1658,7 @@
             <p>Comprehensive list of user names, contact phone numbers, and design uploads.</p>
           </div>
           <div style="display: flex; gap: 10px;">
-            <button class="btn-action" id="btn-quick-demo">
+            <button class="btn-action" id="btn-quick-demo" data-superadmin-only>
               <i data-lucide="database" style="width: 14px; height: 14px;"></i>
               <span>Load Mock Data</span>
             </button>
@@ -1320,8 +1710,118 @@
       </div>
     </section>
 
-    <!-- TAB 4: SETTINGS & TOOLS -->
-    <section id="tab-settings" class="tab-content">
+    <!-- COMPANY FORM SHARING -->
+    <section id="tab-share" class="tab-content" data-company-only>
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <div class="panel-title-wrapper">
+            <h2>Share Your Form</h2>
+            <p>Send this link to customers. Submissions from this form appear only in your company dashboard.</p>
+          </div>
+        </div>
+
+        <div class="share-link-grid">
+          <input type="text" class="share-link-input" id="company-share-link" readonly>
+          <button type="button" class="btn-action btn-action-primary" id="btn-copy-company-link">
+            <i data-lucide="copy" style="width: 14px; height: 14px;"></i>
+            <span>Copy</span>
+          </button>
+          <a href="index.html" class="btn-action" id="company-open-form" target="_blank" rel="noopener">
+            <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+            <span>Open</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPANY SETTINGS -->
+    <section id="tab-company-settings" class="tab-content" data-company-only>
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <div class="panel-title-wrapper">
+            <h2>Company Settings</h2>
+            <p>Upload your logo or choose a theme color. Both are used on your dashboard and shared form.</p>
+          </div>
+        </div>
+
+        <div class="company-logo-settings">
+          <div class="company-logo-preview">
+            <img src="" alt="Company logo preview" id="company-logo-preview" style="display: none;">
+            <i data-lucide="image" id="company-logo-placeholder" style="width: 34px; height: 34px;"></i>
+          </div>
+          <div>
+            <div class="company-field">
+              <label for="company-logo-file">Company Logo</label>
+              <input type="file" id="company-logo-file" accept="image/png,image/jpeg,image/jpg,image/webp">
+            </div>
+            <div class="company-theme-row">
+              <div class="company-theme-swatch" id="company-theme-swatch"></div>
+              <div>
+                <strong id="company-theme-color">#0dd1e5</strong>
+                <div>Theme color used on your dashboard and customer form.</div>
+              </div>
+            </div>
+            <div class="share-link-grid" style="margin-top: 18px;">
+              <div class="company-field">
+                <label for="company-theme-picker">Theme Color</label>
+                <input type="color" id="company-theme-picker" value="#0dd1e5" style="padding: 6px; cursor: pointer;">
+              </div>
+              <button type="button" class="btn-action btn-action-primary" id="btn-save-company-theme" style="min-height: 48px;">
+                <i data-lucide="palette" style="width: 14px; height: 14px;"></i>
+                <span>Save Color</span>
+              </button>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: COMPANIES -->
+    <section id="tab-companies" class="tab-content" data-superadmin-only>
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <div class="panel-title-wrapper">
+            <h2>Company Login Accounts</h2>
+            <p>Create company usernames and passwords that can sign in from this same admin page.</p>
+          </div>
+        </div>
+
+        <form id="company-form" class="company-form-grid" autocomplete="off">
+          <div class="company-field">
+            <label for="company-name">Company Name</label>
+            <input type="text" id="company-name" required placeholder="Acme Digital">
+          </div>
+          <div class="company-field">
+            <label for="company-username">Username</label>
+            <input type="text" id="company-username" required placeholder="acmeadmin">
+          </div>
+          <div class="company-field">
+            <label for="company-password">Password</label>
+            <input type="text" id="company-password" required placeholder="company123">
+          </div>
+          <button type="submit" class="btn-action btn-action-primary" style="min-height: 48px;">
+            <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i>
+            <span>Add Company</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <div class="panel-title-wrapper">
+            <h2>Saved Companies</h2>
+            <p>These accounts can log in with their assigned username and password.</p>
+          </div>
+        </div>
+        <div class="company-list" id="company-list">
+          <!-- Dynamically loads companies -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: SETTINGS & TOOLS -->
+    <section id="tab-settings" class="tab-content" data-superadmin-only>
       <div class="settings-grid">
         <!-- Demo Generator -->
         <div class="settings-card">
@@ -1414,6 +1914,167 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
   <script>
+    // Hardcoded super admin credentials for this static admin page.
+    const SUPER_ADMIN_USERNAME = 'superadmin';
+    const SUPER_ADMIN_PASSWORD = 'admin123';
+    const ADMIN_AUTH_KEY = 'rainhopes-admin-authenticated';
+    const COMPANY_CACHE_KEY = 'rainhopes-company-accounts';
+    const COMPANIES_NODE_KEY = '__companies';
+    const COMPANIES_PATH = `form/${COMPANIES_NODE_KEY}`;
+    const COMPANY_SUBMISSIONS_KEY = 'submissions';
+    const DEFAULT_THEME_COLOR = '#0dd1e5';
+    const SUPER_ADMIN_TABS = ['companies', 'settings'];
+    const COMPANY_ONLY_TABS = ['share', 'company-settings'];
+
+    const adminLoginForm = document.getElementById('admin-login-form');
+    const adminLoginUsername = document.getElementById('admin-login-username');
+    const adminLoginPassword = document.getElementById('admin-login-password');
+    const adminLoginError = document.getElementById('admin-login-error');
+    const adminLogoutBtn = document.getElementById('admin-logout-btn');
+    let companiesRef = null;
+    let adminUiReady = false;
+    var dataUiReady = false;
+    const migratedLocalCompanyIds = new Set();
+    let currentCompanies = loadCompanyCache();
+    let currentAdminUser = readStoredAdminSession();
+
+    function readStoredAdminSession() {
+      const rawSession = sessionStorage.getItem(ADMIN_AUTH_KEY);
+      if (!rawSession) return null;
+      if (rawSession === 'true') {
+        return {
+          role: 'superadmin',
+          username: SUPER_ADMIN_USERNAME,
+          displayName: 'Rainhopes Super Admin'
+        };
+      }
+
+      try {
+        return JSON.parse(rawSession);
+      } catch (err) {
+        sessionStorage.removeItem(ADMIN_AUTH_KEY);
+        return null;
+      }
+    }
+
+    function loadCompanyCache() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(COMPANY_CACHE_KEY) || '[]');
+        return Array.isArray(saved) ? saved : [];
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function saveCompanyCache(companies) {
+      localStorage.setItem(COMPANY_CACHE_KEY, JSON.stringify(companies));
+    }
+
+    function isSuperAdmin() {
+      return currentAdminUser && currentAdminUser.role === 'superadmin';
+    }
+
+    function saveAdminSession(user) {
+      currentAdminUser = user;
+      sessionStorage.setItem(ADMIN_AUTH_KEY, JSON.stringify(user));
+      unlockAdminWorkspace();
+    }
+
+    function unlockAdminWorkspace() {
+      document.body.classList.remove('auth-locked');
+      adminLoginError.textContent = '';
+      if (adminUiReady) applyAccessControls();
+      if (dataUiReady && typeof syncLeadSource === 'function') {
+        syncLeadSource();
+        syncDrawSource();
+        renderRoleSensitiveData();
+        updateCompanyWorkspace();
+      }
+    }
+
+    function lockAdminWorkspace() {
+      currentAdminUser = null;
+      document.body.classList.add('auth-locked');
+      adminLoginForm.reset();
+      adminLoginError.textContent = '';
+      if (adminUiReady && typeof resetCompanyBranding === 'function') resetCompanyBranding();
+      setTimeout(() => adminLoginUsername.focus(), 0);
+    }
+
+    async function fetchCompanyAccountsForLogin() {
+      if (!companiesRef) return currentCompanies;
+
+      const snapshot = await companiesRef.once('value');
+      currentCompanies = mergeLocalCompanies(companiesFromSnapshot(snapshot));
+      saveCompanyCache(currentCompanies);
+      if (typeof renderCompanies === 'function') renderCompanies();
+      return currentCompanies;
+    }
+
+    async function findCompanyAccount(username, password) {
+      const matchesCredentials = company =>
+        company.username.toLowerCase() === username.toLowerCase() && company.password === password;
+      const cachedMatch = currentCompanies.find(matchesCredentials);
+      if (cachedMatch) return cachedMatch;
+
+      try {
+        const companies = await fetchCompanyAccountsForLogin();
+        return companies.find(matchesCredentials) || null;
+      } catch (err) {
+        console.error("Company login lookup error:", err);
+        return null;
+      }
+    }
+
+    if (currentAdminUser) {
+      unlockAdminWorkspace();
+    } else {
+      lockAdminWorkspace();
+    }
+
+    adminLoginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const username = adminLoginUsername.value.trim();
+      const password = adminLoginPassword.value;
+
+      if (username === SUPER_ADMIN_USERNAME && password === SUPER_ADMIN_PASSWORD) {
+        saveAdminSession({
+          role: 'superadmin',
+          username: SUPER_ADMIN_USERNAME,
+          displayName: 'Rainhopes Super Admin'
+        });
+        adminLoginForm.reset();
+        showToast('Signed In', 'Super admin workspace unlocked.');
+        return;
+      }
+
+      adminLoginError.textContent = 'Checking company credentials...';
+      const company = await findCompanyAccount(username, password);
+      if (company) {
+        saveAdminSession({
+          role: 'company',
+          username: company.username,
+          companyId: company.id,
+          displayName: company.companyName || company.username
+        });
+        adminLoginForm.reset();
+        showToast('Signed In', `${company.companyName || company.username} workspace unlocked.`);
+        return;
+      }
+
+      sessionStorage.removeItem(ADMIN_AUTH_KEY);
+      adminLoginError.textContent = 'Invalid username or password.';
+      adminLoginPassword.value = '';
+      adminLoginPassword.focus();
+    });
+
+    adminLogoutBtn.addEventListener('click', () => {
+      sessionStorage.removeItem(ADMIN_AUTH_KEY);
+      lockAdminWorkspace();
+      showToast('Logged Out', 'Admin workspace is locked.');
+    });
+
     // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyB8_D9UEcLlxJffJ4ipf3YVlO9scRXbVLc",
@@ -1430,11 +2091,16 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const LEADS_PATH = 'form';
-    const leadsRef = db.ref(LEADS_PATH);
+    let leadsRef = db.ref(LEADS_PATH);
+    let activeLeadsRef = null;
+    let activeLeadsPath = '';
+    companiesRef = db.ref(COMPANIES_PATH);
     const DRAW_NODE_KEY = '__drawCurrent';
     const DRAW_PATH = `${LEADS_PATH}/${DRAW_NODE_KEY}`;
     const DRAW_DURATION_MS = 10000;
-    const drawRef = db.ref(DRAW_PATH);
+    let drawRef = db.ref(DRAW_PATH);
+    let activeDrawRef = null;
+    let activeDrawPath = '';
 
     // Initialize Lucide Icons
     lucide.createIcons();
@@ -1442,15 +2108,24 @@
     // 1. DYNAMIC TAB SYSTEM
     const pageTitle = document.getElementById('page-display-title');
     const pageSubtitle = document.getElementById('page-display-subtitle');
+    const adminProfileName = document.getElementById('admin-profile-name');
+    const companyBrandLogo = document.getElementById('company-brand-logo');
 
     window.switchTab = function(tabId) {
+      if (SUPER_ADMIN_TABS.includes(tabId) && !isSuperAdmin()) {
+        tabId = 'overview';
+      }
+      if (COMPANY_ONLY_TABS.includes(tabId) && isSuperAdmin()) {
+        tabId = 'overview';
+      }
+
       // Deactivate all links and sections
       document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
 
       // Find the clicked link and activate it
       const clickedLink = Array.from(document.querySelectorAll('.sidebar-link')).find(link => 
-        (link.getAttribute('onclick') || '').includes(tabId)
+        (link.getAttribute('onclick') || '').trim() === `switchTab('${tabId}')`
       );
       if (clickedLink) clickedLink.classList.add('active');
 
@@ -1460,14 +2135,27 @@
 
       // Update titles
       if (tabId === 'overview') {
-        pageTitle.textContent = "Dashboard Overview";
-        pageSubtitle.textContent = "Real-time telemetry and mockups manager.";
+        pageTitle.textContent = isSuperAdmin() ? "Dashboard Overview" : "Company Dashboard";
+        pageSubtitle.textContent = isSuperAdmin()
+          ? "Real-time telemetry and mockups manager."
+          : "Your company submissions and form activity.";
       } else if (tabId === 'leads') {
-        pageTitle.textContent = "Submitted Client Forms";
-        pageSubtitle.textContent = "Browse registered names, phone numbers, and design screenshots.";
+        pageTitle.textContent = isSuperAdmin() ? "Submitted Client Forms" : "Your Form Submissions";
+        pageSubtitle.textContent = isSuperAdmin()
+          ? "Browse registered names, phone numbers, and design screenshots."
+          : "Submissions collected from your shared company form.";
       } else if (tabId === 'draw') {
         pageTitle.textContent = "Winner Draw";
         pageSubtitle.textContent = "Run a live 10 second shuffle for every submitted user.";
+      } else if (tabId === 'share') {
+        pageTitle.textContent = "Share Form";
+        pageSubtitle.textContent = "Copy your company-specific form link.";
+      } else if (tabId === 'company-settings') {
+        pageTitle.textContent = "Company Settings";
+        pageSubtitle.textContent = "Upload your logo and theme your workspace.";
+      } else if (tabId === 'companies') {
+        pageTitle.textContent = "Companies";
+        pageSubtitle.textContent = "Create and manage company login accounts.";
       } else if (tabId === 'settings') {
         pageTitle.textContent = "Database Tools";
         pageSubtitle.textContent = "Administration utilities and cleanups.";
@@ -1476,6 +2164,43 @@
       // Re-trigger icons
       lucide.createIcons();
     };
+
+    function updateAdminProfile() {
+      if (!adminProfileName) return;
+      if (isSuperAdmin()) {
+        adminProfileName.textContent = 'Rainhopes Super Admin';
+        return;
+      }
+      adminProfileName.textContent = currentAdminUser
+        ? `Company: ${currentAdminUser.displayName || currentAdminUser.username}`
+        : 'Rainhopes Admin';
+    }
+
+    function applyAccessControls() {
+      const canUseSuperAdminTools = isSuperAdmin();
+      document.querySelectorAll('[data-superadmin-only]').forEach(element => {
+        element.style.display = canUseSuperAdminTools ? '' : 'none';
+      });
+      document.querySelectorAll('[data-company-only]').forEach(element => {
+        element.style.display = canUseSuperAdminTools ? 'none' : '';
+      });
+
+      updateAdminProfile();
+      if (dataUiReady) updateCompanyWorkspace();
+
+      const activeTab = document.querySelector('.tab-content.active');
+      if (!canUseSuperAdminTools && activeTab && SUPER_ADMIN_TABS.includes(activeTab.id.replace('tab-', ''))) {
+        window.switchTab('overview');
+      }
+      if (canUseSuperAdminTools && activeTab && COMPANY_ONLY_TABS.includes(activeTab.id.replace('tab-', ''))) {
+        window.switchTab('overview');
+      }
+
+      lucide.createIcons();
+    }
+
+    adminUiReady = true;
+    applyAccessControls();
 
     // 2. DARK & LIGHT MODE TOGGLE
     const themeBtn = document.getElementById('theme-btn');
@@ -1513,6 +2238,21 @@
     const adminDrawStatus = document.getElementById('admin-draw-status');
     const adminDrawName = document.getElementById('admin-draw-name');
     const adminDrawMeta = document.getElementById('admin-draw-meta');
+    const companyForm = document.getElementById('company-form');
+    const companyNameInput = document.getElementById('company-name');
+    const companyUsernameInput = document.getElementById('company-username');
+    const companyPasswordInput = document.getElementById('company-password');
+    const companyList = document.getElementById('company-list');
+    const companyShareLink = document.getElementById('company-share-link');
+    const copyCompanyLinkBtn = document.getElementById('btn-copy-company-link');
+    const companyOpenForm = document.getElementById('company-open-form');
+    const companyLogoFile = document.getElementById('company-logo-file');
+    const companyLogoPreview = document.getElementById('company-logo-preview');
+    const companyLogoPlaceholder = document.getElementById('company-logo-placeholder');
+    const companyThemeSwatch = document.getElementById('company-theme-swatch');
+    const companyThemeColor = document.getElementById('company-theme-color');
+    const companyThemePicker = document.getElementById('company-theme-picker');
+    const saveCompanyThemeBtn = document.getElementById('btn-save-company-theme');
     
     // Overview metrics
     const totalOverview = document.getElementById('stat-total-overview');
@@ -1525,6 +2265,470 @@
     let drawCompletionWritePending = false;
     let drawButtonKey = '';
     let serverTimeOffset = 0;
+
+    function hexToRgb(hex) {
+      const normalized = String(hex || DEFAULT_THEME_COLOR).replace('#', '');
+      const value = normalized.length === 3
+        ? normalized.split('').map(char => char + char).join('')
+        : normalized.padEnd(6, '0').slice(0, 6);
+      return {
+        r: parseInt(value.slice(0, 2), 16),
+        g: parseInt(value.slice(2, 4), 16),
+        b: parseInt(value.slice(4, 6), 16)
+      };
+    }
+
+    function rgbToHex(r, g, b) {
+      return '#' + [r, g, b]
+        .map(value => Math.max(0, Math.min(255, Math.round(value))).toString(16).padStart(2, '0'))
+        .join('');
+    }
+
+    function setPrimaryTheme(hex) {
+      const rgb = hexToRgb(hex);
+      document.documentElement.style.setProperty('--primary', hex);
+      document.documentElement.style.setProperty('--primary-rgb', `${rgb.r}, ${rgb.g}, ${rgb.b}`);
+      document.documentElement.style.setProperty('--primary-hover', rgbToHex(rgb.r * 0.9, rgb.g * 0.9, rgb.b * 0.9));
+    }
+
+    function getCurrentCompanyAccount() {
+      if (!currentAdminUser || currentAdminUser.role !== 'company') return null;
+      return currentCompanies.find(company =>
+        company.id === currentAdminUser.companyId ||
+        company.firebaseId === currentAdminUser.companyId ||
+        company.username === currentAdminUser.username
+      ) || null;
+    }
+
+    function getActiveLeadsPath() {
+      if (currentAdminUser && currentAdminUser.role === 'company' && currentAdminUser.companyId) {
+        return `${COMPANIES_PATH}/${currentAdminUser.companyId}/${COMPANY_SUBMISSIONS_KEY}`;
+      }
+      return LEADS_PATH;
+    }
+
+    function getActiveDrawPath() {
+      if (currentAdminUser && currentAdminUser.role === 'company' && currentAdminUser.companyId) {
+        return `${COMPANIES_PATH}/${currentAdminUser.companyId}/${DRAW_NODE_KEY}`;
+      }
+      return DRAW_PATH;
+    }
+
+    function syncLeadSource() {
+      const nextPath = getActiveLeadsPath();
+      if (activeLeadsPath === nextPath && activeLeadsRef) return;
+
+      if (activeLeadsRef) {
+        activeLeadsRef.off();
+      }
+
+      activeLeadsPath = nextPath;
+      leadsRef = db.ref(nextPath);
+      activeLeadsRef = leadsRef;
+      currentLeads = [];
+      updateStats(currentLeads);
+      renderEmptyState();
+      renderDrawParticipants(currentLeads);
+      activeLeadsRef.on('value', handleLeadsSnapshot, handleLeadsError);
+    }
+
+    function syncDrawSource() {
+      const nextPath = getActiveDrawPath();
+      if (activeDrawPath === nextPath && activeDrawRef) return;
+
+      if (activeDrawRef) {
+        activeDrawRef.off();
+      }
+
+      activeDrawPath = nextPath;
+      drawRef = db.ref(nextPath);
+      activeDrawRef = drawRef;
+      currentDrawState = null;
+      drawButtonKey = '';
+      renderAdminDrawState();
+      syncDrawTicker();
+      activeDrawRef.on('value', handleDrawSnapshot, handleDrawError);
+    }
+
+    function getCompanyShareUrl() {
+      if (!currentAdminUser || currentAdminUser.role !== 'company') return '';
+      const url = new URL('index.html', window.location.href);
+      url.searchParams.set('company', currentAdminUser.companyId);
+      const company = getCurrentCompanyAccount();
+      if (company && company.themeColor) {
+        url.searchParams.set('theme', company.themeColor.replace('#', ''));
+      }
+      return url.href;
+    }
+
+    function updateCompanyShareArea() {
+      if (!companyShareLink || !companyOpenForm) return;
+      const shareUrl = getCompanyShareUrl();
+      companyShareLink.value = shareUrl;
+      companyOpenForm.href = shareUrl || 'index.html';
+    }
+
+    function resetCompanyBranding() {
+      setPrimaryTheme(DEFAULT_THEME_COLOR);
+      if (companyBrandLogo) {
+        companyBrandLogo.src = '';
+        companyBrandLogo.style.display = 'none';
+      }
+    }
+
+    function applyCompanyBranding() {
+      const company = getCurrentCompanyAccount();
+      if (!company) {
+        resetCompanyBranding();
+        updateCompanyShareArea();
+        return;
+      }
+
+      const themeColor = company.themeColor || DEFAULT_THEME_COLOR;
+      setPrimaryTheme(themeColor);
+
+      if (companyBrandLogo) {
+        companyBrandLogo.src = company.logo || '';
+        companyBrandLogo.style.display = company.logo ? 'block' : 'none';
+      }
+
+      if (companyLogoPreview && companyLogoPlaceholder) {
+        companyLogoPreview.src = company.logo || '';
+        companyLogoPreview.style.display = company.logo ? 'block' : 'none';
+        companyLogoPlaceholder.style.display = company.logo ? 'none' : 'block';
+      }
+
+      if (companyThemeSwatch) companyThemeSwatch.style.backgroundColor = themeColor;
+      if (companyThemeColor) companyThemeColor.textContent = themeColor;
+      if (companyThemePicker) companyThemePicker.value = themeColor;
+      updateCompanyShareArea();
+    }
+
+    function updateCompanyWorkspace() {
+      applyCompanyBranding();
+    }
+
+    function readFileAsDataURL(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = event => resolve(event.target.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function extractThemeColorFromImage(dataUrl) {
+      return new Promise((resolve) => {
+        const image = new Image();
+        image.onload = () => {
+          const canvas = document.createElement('canvas');
+          const size = 64;
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d', { willReadFrequently: true });
+          ctx.clearRect(0, 0, size, size);
+          ctx.drawImage(image, 0, 0, size, size);
+
+          const pixels = ctx.getImageData(0, 0, size, size).data;
+          let totalR = 0;
+          let totalG = 0;
+          let totalB = 0;
+          let count = 0;
+
+          for (let i = 0; i < pixels.length; i += 4) {
+            const alpha = pixels[i + 3];
+            if (alpha < 120) continue;
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            const saturation = max - min;
+            if (max > 242 || max < 35 || saturation < 24) continue;
+            totalR += r;
+            totalG += g;
+            totalB += b;
+            count++;
+          }
+
+          if (!count) {
+            resolve(DEFAULT_THEME_COLOR);
+            return;
+          }
+
+          resolve(rgbToHex(totalR / count, totalG / count, totalB / count));
+        };
+        image.onerror = () => resolve(DEFAULT_THEME_COLOR);
+        image.src = dataUrl;
+      });
+    }
+
+    function normalizeCompany(firebaseId, rawCompany = {}) {
+      rawCompany = rawCompany || {};
+      const createdAt = Number(rawCompany.createdAt) || 0;
+      return {
+        firebaseId: firebaseId,
+        id: rawCompany.id || firebaseId,
+        companyName: rawCompany.companyName || rawCompany.name || 'Unnamed Company',
+        username: rawCompany.username || '',
+        password: rawCompany.password || '',
+        logo: rawCompany.logo || '',
+        themeColor: rawCompany.themeColor || DEFAULT_THEME_COLOR,
+        createdAt: createdAt,
+        status: rawCompany.status || 'Active'
+      };
+    }
+
+    function companiesFromSnapshot(snapshot) {
+      const data = snapshot.val();
+      if (!data) return [];
+      return Object.keys(data)
+        .map(key => normalizeCompany(key, data[key]))
+        .filter(company => company.username && company.password)
+        .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    }
+
+    function mergeLocalCompanies(firebaseCompanies) {
+      const mergedFirebaseCompanies = firebaseCompanies.map(company => {
+        const cached = currentCompanies.find(item => item.username.toLowerCase() === company.username.toLowerCase());
+        return {
+          ...company,
+          logo: company.logo || (cached && cached.logo) || '',
+          themeColor: company.themeColor || (cached && cached.themeColor) || DEFAULT_THEME_COLOR
+        };
+      });
+      const firebaseUsernames = new Set(mergedFirebaseCompanies.map(company => company.username.toLowerCase()));
+      const localOnlyCompanies = currentCompanies.filter(company => String(company.firebaseId || '').startsWith('local-'));
+      return [
+        ...mergedFirebaseCompanies,
+        ...localOnlyCompanies.filter(company => !firebaseUsernames.has(company.username.toLowerCase()))
+      ];
+    }
+
+    function persistLocalCompaniesToFirebase() {
+      if (!isSuperAdmin()) return;
+
+      currentCompanies
+        .filter(company => String(company.firebaseId || '').startsWith('local-'))
+        .forEach(company => {
+          if (migratedLocalCompanyIds.has(company.id)) return;
+          migratedLocalCompanyIds.add(company.id);
+          companiesRef.child(company.id).set({
+            ...company,
+            id: company.id,
+            firebaseId: null,
+            type: 'company-account'
+          }).catch(err => {
+            console.error("Local company migration error:", err);
+            migratedLocalCompanyIds.delete(company.id);
+          });
+        });
+    }
+
+    function getCompanyDuplicate(username) {
+      const normalizedUsername = username.toLowerCase();
+      if (normalizedUsername === SUPER_ADMIN_USERNAME.toLowerCase()) {
+        return { username: SUPER_ADMIN_USERNAME };
+      }
+      return currentCompanies.find(company => company.username.toLowerCase() === normalizedUsername);
+    }
+
+    function renderCompanies() {
+      if (!companyList) return;
+
+      if (!currentCompanies.length) {
+        companyList.innerHTML = `
+          <div class="company-empty">
+            No company accounts yet. Add a company above to create its login.
+          </div>
+        `;
+        return;
+      }
+
+      companyList.innerHTML = currentCompanies.map(company => {
+        const companyId = escapeJSString(company.id);
+        const createdLabel = company.createdAt ? new Date(company.createdAt).toLocaleString() : 'Saved account';
+        return `
+          <div class="company-row">
+            <div class="company-row-main">
+              <div class="company-name">${escapeHTML(company.companyName)}</div>
+              <div class="company-meta">Username: ${escapeHTML(company.username)} - ${escapeHTML(createdLabel)}</div>
+              <div class="company-password">Password: ${escapeHTML(company.password)}</div>
+            </div>
+            <button class="btn-icon-table delete" onclick="deleteCompany('${companyId}')" title="Delete company login">
+              <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    async function saveCompanyAccount(event) {
+      event.preventDefault();
+
+      if (!isSuperAdmin()) {
+        showToast('Access Restricted', 'Only the super admin can manage company accounts.');
+        return;
+      }
+
+      const companyName = companyNameInput.value.trim();
+      const username = companyUsernameInput.value.trim();
+      const password = companyPasswordInput.value.trim();
+
+      if (!companyName || !username || !password) {
+        showToast('Missing Details', 'Enter company name, username, and password.');
+        return;
+      }
+
+      if (getCompanyDuplicate(username)) {
+        showToast('Username Exists', 'Choose a different username for this company.');
+        return;
+      }
+
+      const createdAt = Date.now();
+      const company = {
+        type: 'company-account',
+        companyName,
+        username,
+        password,
+        logo: '',
+        themeColor: DEFAULT_THEME_COLOR,
+        createdAt,
+        status: 'Active'
+      };
+
+      try {
+        const companyRef = companiesRef.push();
+        await companyRef.set({ ...company, id: companyRef.key });
+        companyForm.reset();
+        showToast('Company Added', `${companyName} can now sign in.`);
+      } catch (err) {
+        console.error("Firebase company save error:", err);
+        const localCompany = {
+          ...company,
+          firebaseId: `local-${createdAt}`,
+          id: `local-${createdAt}`
+        };
+        currentCompanies.unshift(localCompany);
+        saveCompanyCache(currentCompanies);
+        renderCompanies();
+        companyForm.reset();
+        showToast('Saved Locally', 'Firebase blocked the company save, so it was saved in this browser.');
+      }
+    }
+
+    if (companyForm) {
+      companyForm.addEventListener('submit', saveCompanyAccount);
+    }
+
+    function updateCurrentCompanyCache(companyId, update) {
+      currentCompanies = currentCompanies.map(company =>
+        company.id === companyId || company.firebaseId === companyId
+          ? { ...company, ...update }
+          : company
+      );
+      saveCompanyCache(currentCompanies);
+      applyCompanyBranding();
+    }
+
+    if (saveCompanyThemeBtn) {
+      saveCompanyThemeBtn.addEventListener('click', async () => {
+        if (!currentAdminUser || currentAdminUser.role !== 'company') return;
+
+        const companyId = currentAdminUser.companyId;
+        const themeColor = companyThemePicker.value || DEFAULT_THEME_COLOR;
+        const update = {
+          themeColor,
+          updatedAt: Date.now()
+        };
+
+        try {
+          await companiesRef.child(companyId).update(update);
+          updateCurrentCompanyCache(companyId, update);
+          showToast('Theme Saved', 'Your dashboard and form color were updated.');
+        } catch (err) {
+          console.error("Company theme save error:", err);
+          updateCurrentCompanyCache(companyId, update);
+          showToast('Saved Locally', 'Firebase blocked color save, so it was saved in this browser.');
+        }
+      });
+    }
+
+    if (copyCompanyLinkBtn) {
+      copyCompanyLinkBtn.addEventListener('click', async () => {
+        const shareUrl = companyShareLink.value;
+        if (!shareUrl) return;
+
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+        } catch (err) {
+          companyShareLink.select();
+          document.execCommand('copy');
+        }
+
+        showToast('Link Copied', 'Company form link is ready to share.');
+      });
+    }
+
+    if (companyLogoFile) {
+      companyLogoFile.addEventListener('change', async (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+
+        if (!isSuperAdmin() && currentAdminUser && currentAdminUser.role === 'company') {
+          if (file.size > 2 * 1024 * 1024) {
+            showToast('Logo Too Large', 'Please upload a logo under 2MB.');
+            companyLogoFile.value = '';
+            return;
+          }
+
+          try {
+            const logo = await readFileAsDataURL(file);
+            const themeColor = await extractThemeColorFromImage(logo);
+            const companyId = currentAdminUser.companyId;
+            const update = {
+              logo,
+              themeColor,
+              updatedAt: Date.now()
+            };
+
+            await companiesRef.child(companyId).update(update);
+            updateCurrentCompanyCache(companyId, update);
+            showToast('Logo Saved', 'Theme color was picked from your logo.');
+          } catch (err) {
+            console.error("Company logo save error:", err);
+            try {
+              const logo = await readFileAsDataURL(file);
+              const themeColor = await extractThemeColorFromImage(logo);
+              const update = {
+                logo,
+                themeColor,
+                updatedAt: Date.now()
+              };
+              const companyId = currentAdminUser.companyId;
+              updateCurrentCompanyCache(companyId, update);
+              showToast('Saved Locally', 'Firebase blocked logo save, so it was saved in this browser.');
+            } catch (localErr) {
+              showToast('Logo Save Failed', 'Could not read this logo file.');
+            }
+          }
+        }
+
+        companyLogoFile.value = '';
+      });
+    }
+
+    function renderRoleSensitiveData() {
+      if (currentLeads.length) renderTable(currentLeads);
+      renderAdminDrawState();
+      renderCompanies();
+      updateCompanyWorkspace();
+    }
+
+    dataUiReady = true;
+    renderRoleSensitiveData();
 
     function normalizeLead(firebaseId, rawLead = {}) {
       rawLead = rawLead || {};
@@ -1555,18 +2759,18 @@
     function getFirebaseReadMessage(error) {
       const message = (error && (error.message || error.code) || '').toString().toLowerCase();
       if (message.includes('permission')) {
-        return `Firebase rules blocked reading /${LEADS_PATH}. Allow admin reads in Realtime Database rules.`;
+        return `Firebase rules blocked reading /${activeLeadsPath || LEADS_PATH}. Allow reads under /${LEADS_PATH} in Realtime Database rules.`;
       }
       return 'Could not read Firebase Realtime Database. Check the database URL and internet connection.';
     }
 
     // Realtime Sync from Firebase
-    leadsRef.on('value', (snapshot) => {
+    function handleLeadsSnapshot(snapshot) {
       const data = snapshot.val();
       currentLeads = [];
       if (data) {
         currentLeads = Object.keys(data)
-          .filter(key => key !== DRAW_NODE_KEY && !(data[key] && data[key].type === 'draw-state'))
+          .filter(key => key !== DRAW_NODE_KEY && key !== COMPANIES_NODE_KEY && !(data[key] && data[key].type === 'draw-state'))
           .map(key => normalizeLead(key, data[key]));
         // Sort submissions newest first
         currentLeads.sort((a, b) => (b.createdAt || Date.parse(b.date) || 0) - (a.createdAt || Date.parse(a.date) || 0));
@@ -1583,23 +2787,48 @@
       }
 
       renderTable(currentLeads);
-    }, (error) => {
+    }
+
+    function handleLeadsError(error) {
       console.error("Firebase read error:", error);
       currentLeads = [];
       updateStats(currentLeads);
       renderDrawParticipants(currentLeads);
       renderAdminDrawState();
       renderDatabaseError(error);
+    }
+
+    syncLeadSource();
+    syncDrawSource();
+
+    companiesRef.on('value', (snapshot) => {
+      currentCompanies = mergeLocalCompanies(companiesFromSnapshot(snapshot));
+      saveCompanyCache(currentCompanies);
+      renderCompanies();
+      updateCompanyWorkspace();
+      persistLocalCompaniesToFirebase();
+    }, (error) => {
+      console.error("Firebase companies read error:", error);
+      currentCompanies = loadCompanyCache();
+      renderCompanies();
+      updateCompanyWorkspace();
+      if (isSuperAdmin()) {
+        showToast('Company Accounts Offline', `Could not read /${COMPANIES_PATH}. Using browser-saved accounts.`);
+      }
     });
 
     function renderEmptyState() {
+      const emptyTitle = isSuperAdmin() ? 'No Submissions Available' : 'No Company Submissions Yet';
+      const emptyMessage = isSuperAdmin()
+        ? 'No audit forms or website mockups are currently registered in your database. Submissions uploaded from your homepage will automatically populate here.'
+        : 'Your company dashboard is empty. Share your company form link to start collecting submissions here.';
       const emptyHTML = `
         <div class="empty-state">
           <div class="empty-icon-box">
             <i data-lucide="image" style="width: 30px; height: 30px;"></i>
           </div>
-          <h3>No Submissions Available</h3>
-          <p>No audit forms or website mockups are currently registered in your database. Submissions uploaded from your homepage will automatically populate here.</p>
+          <h3>${escapeHTML(emptyTitle)}</h3>
+          <p>${escapeHTML(emptyMessage)}</p>
         </div>
       `;
       leadsContainer.innerHTML = emptyHTML;
@@ -1624,6 +2853,7 @@
     }
 
     function renderTable(leads) {
+      const canManageRecords = isSuperAdmin();
       let mainTableHTML = `
         <table>
           <thead>
@@ -1664,7 +2894,7 @@
               </div>
             </td>
             <td>
-              <span class="status-badge ${badgeClass}" onclick="toggleLeadStatus('${actionId}')" title="Click to toggle status">
+              <span class="status-badge ${badgeClass}" ${canManageRecords ? `onclick="toggleLeadStatus('${actionId}')" title="Click to toggle status"` : 'title="Status"'} >
                 <i data-lucide="${badgeIcon}" style="width: 12px; height: 12px;"></i>
                 <span>${escapeHTML(lead.status)}</span>
               </span>
@@ -1674,9 +2904,11 @@
                 <button class="btn-icon-table" onclick="viewScreenshot('${actionId}')" title="Zoom Mockup">
                   <i data-lucide="maximize-2" style="width: 15px; height: 15px;"></i>
                 </button>
-                <button class="btn-icon-table delete" onclick="deleteLead('${actionId}')" title="Delete record">
-                  <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
-                </button>
+                ${canManageRecords ? `
+                  <button class="btn-icon-table delete" onclick="deleteLead('${actionId}')" title="Delete record">
+                    <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+                  </button>
+                ` : ''}
               </div>
             </td>
           </tr>
@@ -1730,7 +2962,7 @@
               </div>
             </td>
             <td>
-              <span class="status-badge ${badgeClass}" onclick="toggleLeadStatus('${actionId}')" title="Click to toggle status">
+              <span class="status-badge ${badgeClass}" ${canManageRecords ? `onclick="toggleLeadStatus('${actionId}')" title="Click to toggle status"` : 'title="Status"'} >
                 <i data-lucide="${badgeIcon}" style="width: 12px; height: 12px;"></i>
                 <span>${escapeHTML(lead.status)}</span>
               </span>
@@ -1904,14 +3136,16 @@
       syncDrawTicker();
     });
 
-    drawRef.on('value', (snapshot) => {
+    function handleDrawSnapshot(snapshot) {
       currentDrawState = snapshot.val();
       renderAdminDrawState();
       syncDrawTicker();
-    }, (error) => {
+    }
+
+    function handleDrawError(error) {
       console.error("Firebase draw read error:", error);
-      showToast('Firebase Error', `Could not read /${DRAW_PATH}.`);
-    });
+      showToast('Firebase Error', `Could not read /${activeDrawPath || DRAW_PATH}.`);
+    }
 
     async function startWinnerDraw() {
       const mode = getDrawMode(currentDrawState);
@@ -1926,6 +3160,8 @@
       const now = getSyncedNow();
       const drawPayload = {
         type: 'draw-state',
+        scope: isSuperAdmin() ? 'global' : 'company',
+        companyId: currentAdminUser && currentAdminUser.companyId ? currentAdminUser.companyId : '',
         status: 'running',
         startedAt: now,
         endsAt: now + DRAW_DURATION_MS,
@@ -1953,13 +3189,18 @@
         showToast('Draw Started', 'The 10 second live shuffle is now visible on the Winner page.');
       } catch (err) {
         console.error("Firebase draw start error:", err);
-        showToast('Firebase Error', `Could not write /${DRAW_PATH}.`);
+        showToast('Firebase Error', `Could not write /${activeDrawPath || DRAW_PATH}.`);
       }
     }
 
     startDrawBtn.addEventListener('click', startWinnerDraw);
 
     window.toggleLeadStatus = function(leadId) {
+      if (!isSuperAdmin()) {
+        showToast('Access Restricted', 'Only the super admin can update records.');
+        return;
+      }
+
       const lead = currentLeads.find(l => l.id === leadId);
       if (lead && lead.firebaseId) {
         const nextStatus = lead.status === 'Pending Review' ? 'Contacted' : 'Pending Review';
@@ -1975,6 +3216,11 @@
     };
 
     window.deleteLead = function(leadId) {
+      if (!isSuperAdmin()) {
+        showToast('Access Restricted', 'Only the super admin can delete records.');
+        return;
+      }
+
       if (confirm('Are you sure you want to permanently delete this submission?')) {
         const lead = currentLeads.find(l => l.id === leadId);
         if (lead && lead.firebaseId) {
@@ -1998,8 +3244,43 @@
       }
     };
 
+    window.deleteCompany = async function(companyId) {
+      if (!isSuperAdmin()) {
+        showToast('Access Restricted', 'Only the super admin can delete company accounts.');
+        return;
+      }
+
+      const company = currentCompanies.find(item => item.id === companyId);
+      if (!company) return;
+
+      if (!confirm(`Delete the login for ${company.companyName}?`)) return;
+
+      const isLocalOnly = String(company.firebaseId || '').startsWith('local-');
+      if (company.firebaseId && !isLocalOnly) {
+        try {
+          await companiesRef.child(company.firebaseId).remove();
+          showToast('Company Deleted', `${company.companyName} login was removed.`);
+          return;
+        } catch (err) {
+          console.error("Firebase company delete error:", err);
+          showToast('Firebase Error', 'Could not delete company from database.');
+          return;
+        }
+      }
+
+      currentCompanies = currentCompanies.filter(item => item.id !== companyId);
+      saveCompanyCache(currentCompanies);
+      renderCompanies();
+      showToast('Company Deleted', `${company.companyName} login was removed.`);
+    };
+
     // Database tools: Generate mock leads
     async function generateDemoRecords() {
+      if (!isSuperAdmin()) {
+        showToast('Access Restricted', 'Only the super admin can generate demo records.');
+        return;
+      }
+
       const mockImage1 = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><rect width="800" height="600" fill="%230b0f19"/><circle cx="400" cy="300" r="180" fill="none" stroke="%230dd1e5" stroke-width="4" stroke-opacity="0.2"/><path d="M 150 150 L 650 450" stroke="%23ffffff" stroke-width="1" stroke-opacity="0.1"/><text x="400" y="280" font-family="sans-serif" font-size="28" font-weight="bold" fill="%23ffffff" text-anchor="middle">SOLARIS SAAS</text><text x="400" y="320" font-family="sans-serif" font-size="16" fill="%230dd1e5" text-anchor="middle">Corporate Homepage Layout Mockup</text><rect x="50" y="500" width="700" height="2" fill="%23ffffff" fill-opacity="0.05"/></svg>';
       
       const mockImage2 = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><rect width="800" height="600" fill="%23ffffff"/><rect x="100" y="100" width="600" height="400" fill="%23f9fafb" rx="10" stroke="%23e5e7eb" stroke-width="2"/><circle cx="200" cy="200" r="50" fill="%230dd1e5" fill-opacity="0.8"/><text x="400" y="290" font-family="sans-serif" font-size="32" font-weight="900" fill="%23111827" text-anchor="middle">AURA AGENCY</text><text x="400" y="330" font-family="sans-serif" font-size="14" fill="%236b7280" text-anchor="middle">Portfolio and Case Studies Design Draft</text></svg>';
@@ -2042,16 +3323,26 @@
     document.getElementById('btn-generate-settings').addEventListener('click', generateDemoRecords);
 
     // Database tools: Clear all
-    function clearAllDatabase() {
+    async function clearAllDatabase() {
+      if (!isSuperAdmin()) {
+        showToast('Access Restricted', 'Only the super admin can wipe the database.');
+        return;
+      }
+
       if (confirm('Are you sure you want to permanently clear all records from the database? This cannot be undone.')) {
-        leadsRef.remove()
-          .then(() => {
-            showToast('Database Wiped', 'All form entries and screenshots have been deleted.');
-          })
-          .catch(err => {
-            console.error("Firebase clear error:", err);
-            showToast('Firebase Error', 'Could not clear database.', 'error');
-          });
+        try {
+          const rootRef = db.ref(LEADS_PATH);
+          const snapshot = await rootRef.once('value');
+          const data = snapshot.val() || {};
+          const removals = Object.keys(data)
+            .filter(key => key !== COMPANIES_NODE_KEY)
+            .map(key => rootRef.child(key).remove());
+          await Promise.all(removals);
+          showToast('Database Wiped', 'All form entries and draw data were deleted. Company accounts were kept.');
+        } catch (err) {
+          console.error("Firebase clear error:", err);
+          showToast('Firebase Error', 'Could not clear database.', 'error');
+        }
       }
     }
 

@@ -112,6 +112,22 @@
       color: inherit;
     }
 
+    .company-header-logo {
+      max-width: 150px;
+      max-height: 58px;
+      object-fit: contain;
+      display: none;
+    }
+
+    .logo-container.has-company-logo .company-header-logo {
+      display: block;
+    }
+
+    .logo-container.has-company-logo .logo-main,
+    .logo-container.has-company-logo .logo-subtext {
+      display: none;
+    }
+
     .logo-main {
       font-family: var(--font-outfit);
       font-size: 26px;
@@ -301,15 +317,15 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, var(--primary) 0%, #00b4d8 100%);
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-hover) 100%);
     }
 
     .trophy-box {
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      background: linear-gradient(135deg, rgba(13, 209, 229, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%);
-      border: 1px solid rgba(13, 209, 229, 0.2);
+      background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1) 0%, rgba(var(--primary-rgb), 0.04) 100%);
+      border: 1px solid rgba(var(--primary-rgb), 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -386,7 +402,7 @@
       background-color: var(--primary);
       color: #ffffff;
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(13, 209, 229, 0.3);
+      box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.3);
     }
 
     .btn-action-home svg {
@@ -519,7 +535,7 @@
       border-radius: 50%;
       background-color: var(--card-bg);
       border: 1px solid rgba(var(--primary-rgb), 0.25);
-      box-shadow: 0 28px 80px rgba(13, 209, 229, 0.16);
+      box-shadow: 0 28px 80px rgba(var(--primary-rgb), 0.16);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -736,7 +752,8 @@
 
   <!-- HEADER -->
   <header>
-    <a href="index.html" class="logo-container">
+    <a href="index.html" class="logo-container" id="site-logo-container">
+      <img src="" alt="Company logo" class="company-header-logo" id="company-header-logo">
       <div class="logo-main">
         <span class="rain">rain</span>
         <div class="logo-i-wrapper">
@@ -755,8 +772,8 @@
     </a>
 
     <nav>
-      <a href="index.html">Home</a>
-      <a href="winner.html" class="active">Winner</a>
+      <a href="index.html" id="nav-home-link">Home</a>
+      <a href="winner.html" class="active" id="nav-winner-link">Winner</a>
     </nav>
 
     <div class="header-actions">
@@ -838,7 +855,18 @@
     const db = firebase.database();
     const LEADS_PATH = 'form';
     const DRAW_NODE_KEY = '__drawCurrent';
-    const DRAW_PATH = `${LEADS_PATH}/${DRAW_NODE_KEY}`;
+    const COMPANIES_NODE_KEY = '__companies';
+    const COMPANIES_PATH = `${LEADS_PATH}/${COMPANIES_NODE_KEY}`;
+    const DEFAULT_THEME_COLOR = '#0dd1e5';
+    const urlParams = new URLSearchParams(window.location.search);
+    const companyId = urlParams.get('company') || '';
+    const urlTheme = urlParams.get('theme') || '';
+    const urlThemeColor = /^#?[0-9a-f]{6}$/i.test(urlTheme)
+      ? `#${urlTheme.replace('#', '')}`
+      : '';
+    const companyRef = companyId ? db.ref(`${COMPANIES_PATH}/${companyId}`) : null;
+    const ACTIVE_LEADS_PATH = companyId ? `${COMPANIES_PATH}/${companyId}/submissions` : LEADS_PATH;
+    const DRAW_PATH = companyId ? `${COMPANIES_PATH}/${companyId}/${DRAW_NODE_KEY}` : `${LEADS_PATH}/${DRAW_NODE_KEY}`;
 
     const publicDrawSummary = document.getElementById('public-draw-summary');
     const publicDrawStage = document.getElementById('public-draw-stage');
@@ -846,11 +874,90 @@
     const publicDrawStatus = document.getElementById('public-draw-status');
     const publicDrawName = document.getElementById('public-draw-name');
     const publicDrawMeta = document.getElementById('public-draw-meta');
+    const companyHeaderLogo = document.getElementById('company-header-logo');
+    const siteLogoContainer = document.getElementById('site-logo-container');
+    const navHomeLink = document.getElementById('nav-home-link');
+    const navWinnerLink = document.getElementById('nav-winner-link');
 
     let publicLeads = [];
     let publicDrawState = null;
     let publicTicker = null;
     let serverTimeOffset = 0;
+
+    function hexToRgb(hex) {
+      const normalized = String(hex || DEFAULT_THEME_COLOR).replace('#', '');
+      const value = normalized.length === 3
+        ? normalized.split('').map(char => char + char).join('')
+        : normalized.padEnd(6, '0').slice(0, 6);
+      return {
+        r: parseInt(value.slice(0, 2), 16),
+        g: parseInt(value.slice(2, 4), 16),
+        b: parseInt(value.slice(4, 6), 16)
+      };
+    }
+
+    function rgbToHex(r, g, b) {
+      return '#' + [r, g, b]
+        .map(value => Math.max(0, Math.min(255, Math.round(value))).toString(16).padStart(2, '0'))
+        .join('');
+    }
+
+    function setPrimaryTheme(hex) {
+      const rgb = hexToRgb(hex);
+      document.documentElement.style.setProperty('--primary', hex);
+      document.documentElement.style.setProperty('--primary-rgb', `${rgb.r}, ${rgb.g}, ${rgb.b}`);
+      document.documentElement.style.setProperty('--primary-hover', rgbToHex(rgb.r * 0.9, rgb.g * 0.9, rgb.b * 0.9));
+    }
+
+    function getActiveThemeColor(company) {
+      return (company && company.themeColor) || urlThemeColor || DEFAULT_THEME_COLOR;
+    }
+
+    function buildPublicPageUrl(pageName, company) {
+      const url = new URL(pageName, window.location.href);
+      if (companyId) {
+        url.searchParams.set('company', companyId);
+        url.searchParams.set('theme', getActiveThemeColor(company).replace('#', ''));
+      }
+      return url.href;
+    }
+
+    function updatePublicNavLinks(company) {
+      navHomeLink.href = buildPublicPageUrl('index.html', company);
+      navWinnerLink.href = buildPublicPageUrl('winner.html', company);
+      siteLogoContainer.href = navHomeLink.href;
+    }
+
+    function applyCompanyBranding(company) {
+      if (!company) return;
+
+      setPrimaryTheme(getActiveThemeColor(company));
+      updatePublicNavLinks(company);
+
+      if (company.logo) {
+        companyHeaderLogo.src = company.logo;
+        siteLogoContainer.classList.add('has-company-logo');
+      }
+
+      const companyName = company.companyName || company.name || 'Company';
+      document.title = `${companyName} | Winner Draw`;
+    }
+
+    if (companyId) {
+      if (urlThemeColor) setPrimaryTheme(urlThemeColor);
+      updatePublicNavLinks(null);
+    }
+
+    if (companyRef) {
+      companyRef.once('value')
+        .then(snapshot => {
+          const company = snapshot.val();
+          if (company) applyCompanyBranding(company);
+        })
+        .catch(err => {
+          console.error("Company branding load error:", err);
+        });
+    }
 
     function normalizeLead(firebaseId, rawLead = {}) {
       rawLead = rawLead || {};
@@ -865,11 +972,11 @@
       };
     }
 
-    db.ref(LEADS_PATH).on('value', (snapshot) => {
+    db.ref(ACTIVE_LEADS_PATH).on('value', (snapshot) => {
       const data = snapshot.val();
       publicLeads = data
         ? Object.keys(data)
-          .filter(key => key !== DRAW_NODE_KEY && !(data[key] && data[key].type === 'draw-state'))
+          .filter(key => key !== DRAW_NODE_KEY && key !== COMPANIES_NODE_KEY && !(data[key] && data[key].type === 'draw-state'))
           .map(key => normalizeLead(key, data[key]))
         : [];
       publicLeads.sort((a, b) => (b.createdAt || Date.parse(b.date) || 0) - (a.createdAt || Date.parse(a.date) || 0));
